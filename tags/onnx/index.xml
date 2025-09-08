@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Onnx on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</title>
+    <link>https://yevhen-k.github.io/tags/onnx/</link>
+    <description>Recent content in Onnx on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 08 Sep 2025 18:15:24 +0300</lastBuildDate>
+    <atom:link href="https://yevhen-k.github.io/tags/onnx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Giving Odin Intelligence</title>
+      <link>https://yevhen-k.github.io/posts/giving-odin-intelligence/</link>
+      <pubDate>Mon, 08 Sep 2025 18:15:24 +0300</pubDate>
+      <guid>https://yevhen-k.github.io/posts/giving-odin-intelligence/</guid>
+      <description>&lt;p&gt;My adventure with Odin keeps going. I decided to try something unexpected with Odin - deep learning and AI! &amp;ldquo;But how?&amp;rdquo; you might ask. Fortunately, there is a well-known deep-learning framework for running AI models. I&amp;rsquo;m about ONNX.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Familiarity with ONNX&lt;/li&gt;&#xA;&lt;li&gt;Familiarity with C&lt;/li&gt;&#xA;&lt;li&gt;Odin &lt;a href=&#34;https://odin-lang.org/docs/overview&#34; target=&#34;_blank&#34;&gt;Overview&lt;/a&gt; page has been read&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;ONNX has a well-documented C API, which makes it easy to port to Odin.  At least, I hoped it would be easy. But this is another story.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
