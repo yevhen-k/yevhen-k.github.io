@@ -433,10 +433,10 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> OrtApi<span style="color:#f92672">*</span> g_ort <span style="color:#f92672">=</span> <span style="color:#a6e22e">OrtGetApiBase</span>()<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">GetApi</span>(ORT_API_VERSION);
 </span></span></code></pre></div><p>On the Odin side, the <code>OrtApi</code> structure is already defined in the bindings file, so we can simply initialize the <code>OrtApi</code> instance and even check if it was initialized successfully:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">g_ort</span>: ^<span style="color:#a6e22e">OrtApi</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">g_ort</span> = <span style="color:#a6e22e">OrtGetApiBase</span>().<span style="color:#a6e22e">GetApi</span>(<span style="color:#a6e22e">ORT_API_VERSION</span>); <span style="color:#a6e22e">cast</span>(<span style="color:#a6e22e">rawptr</span>)<span style="color:#a6e22e">g_ort</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">eprintln</span>(<span style="color:#e6db74">&#34;&gt;&gt;&gt; OrtApi is nil&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>g_ort<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtApi
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> g_ort <span style="color:#f92672">=</span> OrtGetApiBase().GetApi(ORT_API_VERSION); <span style="color:#66d9ef">cast</span>(<span style="color:#66d9ef">rawptr</span>)g_ort <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    fmt.eprintln(<span style="color:#e6db74">&#34;&gt;&gt;&gt; OrtApi is nil&#34;</span>)
+</span></span><span style="display:flex;"><span>    os.exit(<span style="color:#a6e22e">1</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="listing-all-available-providers">Listing all available providers</h4>
 <p>To get a list of all available providers, in C we use:</p>
@@ -469,17 +469,17 @@
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The equivalent code in Odin is as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#75715e">//// Get available providers:</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">providers_count</span>: <span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">int</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">providers</span>: [^]<span style="color:#a6e22e">cstring</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span><span style="color:#75715e">//// Get available providers:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>providers_count<span style="color:#f92672">:</span> c.<span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>providers<span style="color:#f92672">:</span> [<span style="color:#f92672">^</span>]<span style="color:#66d9ef">cstring</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">GetAvailableProviders</span>(<span style="color:#a6e22e">cast</span>(^^^<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">char</span>)(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">providers</span>), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">providers_count</span>)
+</span></span><span style="display:flex;"><span>g_ort.GetAvailableProviders(<span style="color:#66d9ef">cast</span>(<span style="color:#f92672">^^^</span>c.char)(<span style="color:#f92672">&amp;</span>providers), <span style="color:#f92672">&amp;</span>providers_count)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseAvailableProviders</span>(<span style="color:#a6e22e">providers</span>, <span style="color:#a6e22e">providers_count</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseAvailableProviders(providers, providers_count)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.println(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Available providers:&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>: <span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">providers_count</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">printfln</span>(<span style="color:#e6db74">&#34;\t%d) %s&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">providers</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>fmt.println(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Available providers:&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i<span style="color:#f92672">:</span> c.<span style="color:#66d9ef">int</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">0</span>; i <span style="color:#f92672">&lt;</span> providers_count; i <span style="color:#f92672">+=</span> <span style="color:#a6e22e">1</span> {
+</span></span><span style="display:flex;"><span>    fmt.printfln(<span style="color:#e6db74">&#34;\t%d) %s&#34;</span>, i, providers[i])
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/*
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">    0) TensorrtExecutionProvider
@@ -492,25 +492,25 @@
 </span></span><span style="display:flex;"><span>OrtStatus<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetAvailableProviders</span>(<span style="color:#66d9ef">char</span><span style="color:#f92672">***</span> out_ptr, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> provider_length);
 </span></span></code></pre></div><p>This is quite tricky. On the Odin side, we could use <code>providers: ^^c.char</code>, but we shouldn&rsquo;t. This is because we use <code>providers</code> as a 1D array of C-strings (null-terminated char arrays), but not just double pointer to char. To express array nature of <code>providers</code>, we use <a href="https://odin-lang.org/docs/overview/#multi-pointers" target="_blank">multi-pointers</a>. Multi-pointers support indexing in Odin. So, instead of <code>providers: ^^c.char</code>, we use <code>providers: [^]cstring</code>.</p>
 <p>But how do I pass <code>providers: [^]cstring</code> to a function with the following signature:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">GetAvailableProviders</span> : <span style="color:#a6e22e">proc</span>(<span style="color:#a6e22e">out_ptr</span>: ^^^<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">char</span>, <span style="color:#a6e22e">provider_length</span>: ^<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">int</span>) <span style="color:#f92672">-</span>&gt; <span style="color:#a6e22e">OrtStatusPtr</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>GetAvailableProviders <span style="color:#f92672">:</span> <span style="color:#66d9ef">proc</span>(out_ptr<span style="color:#f92672">:</span> <span style="color:#f92672">^^^</span>c.char, provider_length<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>c.<span style="color:#66d9ef">int</span>) <span style="color:#f92672">-&gt;</span> OrtStatusPtr
 </span></span></code></pre></div><p>To pass <code>providers</code> into <code>GetAvailableProviders()</code> we have to cast <code>providers</code> to <code>^^^c.char</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">cast</span>(^^^<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">char</span>)(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">providers</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span><span style="color:#66d9ef">cast</span>(<span style="color:#f92672">^^^</span>c.char)(<span style="color:#f92672">&amp;</span>providers)
 </span></span></code></pre></div><h3 id="initialize-ortenv-variable">Initialize <code>OrtEnv</code> variable</h3>
 <p>According to the C API, to initialize the <code>OrtEnv</code> we use the following code:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>OrtEnv <span style="color:#f92672">*</span>env;
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(g_ort<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">CreateEnv</span>(ORT_LOGGING_LEVEL_WARNING, <span style="color:#e6db74">&#34;test&#34;</span>, <span style="color:#f92672">&amp;</span>env));
 </span></span></code></pre></div><p>On the Odin side, the equivalent code is quite similar:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">env</span>: ^<span style="color:#a6e22e">OrtEnv</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span>: <span style="color:#a6e22e">OrtStatusPtr</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">CreateEnv</span>(<span style="color:#a6e22e">OrtLoggingLevel</span>.<span style="color:#a6e22e">ORT_LOGGING_LEVEL_WARNING</span>, <span style="color:#e6db74">&#34;test&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">env</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseEnv</span>(<span style="color:#a6e22e">env</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>env<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtEnv
+</span></span><span style="display:flex;"><span>status<span style="color:#f92672">:</span> OrtStatusPtr <span style="color:#f92672">=</span> g_ort.CreateEnv(OrtLoggingLevel.ORT_LOGGING_LEVEL_WARNING, <span style="color:#e6db74">&#34;test&#34;</span>, <span style="color:#f92672">&amp;</span>env)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseEnv(env)
 </span></span></code></pre></div><p><code>CheckStatus()</code> is as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span> :: <span style="color:#a6e22e">proc</span>(<span style="color:#a6e22e">ort</span>: ^<span style="color:#a6e22e">OrtApi</span>, <span style="color:#a6e22e">status</span>: <span style="color:#a6e22e">OrtStatusPtr</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">status</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">msg</span>: <span style="color:#a6e22e">cstring</span> = <span style="color:#a6e22e">ort</span>.<span style="color:#a6e22e">GetErrorMessage</span>(<span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">eprintln</span>(<span style="color:#a6e22e">msg</span>)
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ort</span>.<span style="color:#a6e22e">ReleaseStatus</span>(<span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>CheckStatus <span style="color:#f92672">::</span> <span style="color:#66d9ef">proc</span>(ort<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtApi, status<span style="color:#f92672">:</span> OrtStatusPtr) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> status <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		msg<span style="color:#f92672">:</span> <span style="color:#66d9ef">cstring</span> <span style="color:#f92672">=</span> ort.GetErrorMessage(status)
+</span></span><span style="display:flex;"><span>		fmt.eprintln(msg)
+</span></span><span style="display:flex;"><span>		ort.ReleaseStatus(status)
+</span></span><span style="display:flex;"><span>		os.exit(<span style="color:#a6e22e">1</span>)
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="configure-ortsessionoptions-and-ortsession">Configure <code>OrtSessionOptions</code> and <code>OrtSession</code></h3>
@@ -521,44 +521,44 @@
 </span></span><span style="display:flex;"><span>g_ort<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">SetIntraOpNumThreads</span>(session_options, <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>g_ort<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">SetSessionGraphOptimizationLevel</span>(session_options, ORT_ENABLE_BASIC);
 </span></span></code></pre></div><p>Compare it with Odin&rsquo;s code:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">session_options</span>: ^<span style="color:#a6e22e">OrtSessionOptions</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">CreateSessionOptions</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">session_options</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseSessionOptions</span>(<span style="color:#a6e22e">session_options</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>session_options<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtSessionOptions
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.CreateSessionOptions(<span style="color:#f92672">&amp;</span>session_options)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseSessionOptions(session_options)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">SetIntraOpNumThreads</span>(<span style="color:#a6e22e">session_options</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.SetIntraOpNumThreads(session_options, <span style="color:#a6e22e">1</span>)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">SetSessionGraphOptimizationLevel</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">session_options</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">GraphOptimizationLevel</span>.<span style="color:#a6e22e">ORT_ENABLE_BASIC</span>,
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.SetSessionGraphOptimizationLevel(
+</span></span><span style="display:flex;"><span>    session_options,
+</span></span><span style="display:flex;"><span>    GraphOptimizationLevel.ORT_ENABLE_BASIC,
 </span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
 </span></span></code></pre></div><h4 id="enable-cuda-if-available">Enable CUDA if available</h4>
 <p>After <code>OrtSessionOptions</code> is initialized, we can check if CUDA is available and configure ONNX to use CUDA as the provider. Here I show only Odin code because as you already have seen, the difference between Odin and C is minimal.</p>
 <p>Let&rsquo;s find out if CUDA is available:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">is_cuda_available</span>: <span style="color:#66d9ef">bool</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>: <span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">providers_count</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">providers</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;CUDAExecutionProvider&#34;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">is_cuda_available</span> = <span style="color:#66d9ef">true</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>is_cuda_available<span style="color:#f92672">:</span> <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i<span style="color:#f92672">:</span> c.<span style="color:#66d9ef">int</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">0</span>; i <span style="color:#f92672">&lt;</span> providers_count; i <span style="color:#f92672">+=</span> <span style="color:#a6e22e">1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> providers[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;CUDAExecutionProvider&#34;</span> {
+</span></span><span style="display:flex;"><span>        is_cuda_available <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">printfln</span>(<span style="color:#e6db74">&#34;&gt;&gt;&gt; CUDA is available: %t&#34;</span>, <span style="color:#a6e22e">is_cuda_available</span>)
+</span></span><span style="display:flex;"><span>fmt.printfln(<span style="color:#e6db74">&#34;&gt;&gt;&gt; CUDA is available: %t&#34;</span>, is_cuda_available)
 </span></span></code></pre></div><p>And use it as acceleration provider:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">is_cuda_available</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.println(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Setting up CUDA...&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">OrtSessionOptionsAppendExecutionProvider_CUDA</span>(<span style="color:#a6e22e">session_options</span>, <span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> is_cuda_available {
+</span></span><span style="display:flex;"><span>    fmt.println(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Setting up CUDA...&#34;</span>)
+</span></span><span style="display:flex;"><span>    status <span style="color:#f92672">=</span> OrtSessionOptionsAppendExecutionProvider_CUDA(session_options, <span style="color:#a6e22e">0</span>)
+</span></span><span style="display:flex;"><span>    CheckStatus(g_ort, status)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="ortsession"><code>OrtSession</code></h4>
 <p><code>OrtSession</code> is initialized with <code>OrtEnv</code>, model path, and <code>OrtSessionOptions</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">session</span>: ^<span style="color:#a6e22e">OrtSession</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">model_path</span> :: <span style="color:#e6db74">&#34;squeezenet1.0-8.onnx&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>session<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtSession
+</span></span><span style="display:flex;"><span>model_path <span style="color:#f92672">::</span> <span style="color:#e6db74">&#34;squeezenet1.0-8.onnx&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">CreateSession</span>(<span style="color:#a6e22e">env</span>, <span style="color:#a6e22e">model_path</span>, <span style="color:#a6e22e">session_options</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">session</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseSession</span>(<span style="color:#a6e22e">session</span>)
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.CreateSession(env, model_path, session_options, <span style="color:#f92672">&amp;</span>session)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseSession(session)
 </span></span></code></pre></div><h3 id="run-session">Run session</h3>
 <p>So, we&rsquo;ve made all necessary preparations to configure <code>OrtSession</code>. We&rsquo;re almost ready to run the mode in GPU.</p>
 <p>To run the model, we have to:</p>
@@ -582,17 +582,17 @@
 <p>The syntax of node name declaration is straightforward, so I&rsquo;ll show only <code>output_node_names</code> in C (to be more precise, in C++ as it was implemented in the ONNX example):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*&gt;</span> output_node_names <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;softmaxout_1&#34;</span>};
 </span></span></code></pre></div><p>On the Odin side, input node name, output node name, and dimensions are initialized as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">input_node_dims</span> <span style="color:#f92672">:=</span> make([<span style="color:#a6e22e">dynamic</span>]<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">int64_t</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> delete(<span style="color:#a6e22e">input_node_dims</span>)
-</span></span><span style="display:flex;"><span>append(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">input_node_dims</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">224</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>input_node_dims <span style="color:#f92672">:=</span> <span style="color:#66d9ef">make</span>([<span style="color:#66d9ef">dynamic</span>]c.int64_t)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">delete</span>(input_node_dims)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">append</span>(<span style="color:#f92672">&amp;</span>input_node_dims, <span style="color:#a6e22e">1</span>, <span style="color:#a6e22e">3</span>, <span style="color:#a6e22e">224</span>, <span style="color:#a6e22e">224</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">input_node_names</span> <span style="color:#f92672">:=</span> make([<span style="color:#a6e22e">dynamic</span>]<span style="color:#a6e22e">cstring</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> delete(<span style="color:#a6e22e">input_node_names</span>)
-</span></span><span style="display:flex;"><span>append(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">input_node_names</span>, <span style="color:#e6db74">&#34;data_0&#34;</span>)
+</span></span><span style="display:flex;"><span>input_node_names <span style="color:#f92672">:=</span> <span style="color:#66d9ef">make</span>([<span style="color:#66d9ef">dynamic</span>]<span style="color:#66d9ef">cstring</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">delete</span>(input_node_names)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">append</span>(<span style="color:#f92672">&amp;</span>input_node_names, <span style="color:#e6db74">&#34;data_0&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">output_node_names</span> <span style="color:#f92672">:=</span> make([<span style="color:#a6e22e">dynamic</span>]<span style="color:#a6e22e">cstring</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> delete(<span style="color:#a6e22e">output_node_names</span>)
-</span></span><span style="display:flex;"><span>append(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">output_node_names</span>, <span style="color:#e6db74">&#34;softmaxout_1&#34;</span>)
+</span></span><span style="display:flex;"><span>output_node_names <span style="color:#f92672">:=</span> <span style="color:#66d9ef">make</span>([<span style="color:#66d9ef">dynamic</span>]<span style="color:#66d9ef">cstring</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">delete</span>(output_node_names)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">append</span>(<span style="color:#f92672">&amp;</span>output_node_names, <span style="color:#e6db74">&#34;softmaxout_1&#34;</span>)
 </span></span></code></pre></div><h4 id="allocate-input-tensor">Allocate input tensor</h4>
 <p>In a real-world scenario, we&rsquo;d use images to pass to the model and get predictions. But for the sake of the demo, we&rsquo;ll use dummy data to be passed to the model.</p>
 <p>SqueezeNet is the model for image classification. The model is trained on the ImageNet dataset. Images in the ImageNet dataset have a specific size of 224x224x3 pixels (224 pixels height, 224 pixels width, and 3 channels). So, we have to allocate and populate a vector of <code>224*224*3</code> elements.</p>
@@ -619,43 +619,43 @@
 </span></span><span style="display:flex;"><span>g_ort<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">ReleaseMemoryInfo</span>(memory_info);
 </span></span></code></pre></div><p>In the C code above (again, it&rsquo;s C++, but who cares), we allocate the <code>input_tensor_values</code> vector of floats with <code>224*224*3</code> elements and populate it with dummy data. Then, we &ldquo;transfer&rdquo; the data to the ONNX world by calling <code>CreateTensorWithDataAsOrtValue()</code> and allocating <code>input_tensor</code>. As the final step, we check if <code>input_tensor</code> is a reference to the real tensor, and we&rsquo;re good to go.</p>
 <p>Here is the same thing in Odin:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">input_tensor_size</span>: <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">size_t</span> = <span style="color:#ae81ff">224</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">224</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>input_tensor_size<span style="color:#f92672">:</span> c.size_t <span style="color:#f92672">=</span> <span style="color:#a6e22e">224</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">224</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">input_tensor_values</span> <span style="color:#f92672">:=</span> make([<span style="color:#a6e22e">dynamic</span>]<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">float</span>, <span style="color:#a6e22e">input_tensor_size</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> delete(<span style="color:#a6e22e">input_tensor_values</span>)
+</span></span><span style="display:flex;"><span>input_tensor_values <span style="color:#f92672">:=</span> <span style="color:#66d9ef">make</span>([<span style="color:#66d9ef">dynamic</span>]c.float, input_tensor_size)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">delete</span>(input_tensor_values)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// initialize input data with values in [0.0, 1.0] (dummy data)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>: <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">size_t</span> = <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">input_tensor_size</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">input_tensor_values</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">cast</span>(<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">float</span>)<span style="color:#a6e22e">i</span> <span style="color:#f92672">/</span> (<span style="color:#a6e22e">cast</span>(<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">float</span>)<span style="color:#a6e22e">input_tensor_size</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// initialize input data with values in [0.0, 1.0] (dummy data)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> i<span style="color:#f92672">:</span> c.size_t <span style="color:#f92672">=</span> <span style="color:#a6e22e">0</span>; i <span style="color:#f92672">&lt;</span> input_tensor_size; i <span style="color:#f92672">+=</span> <span style="color:#a6e22e">1</span> {
+</span></span><span style="display:flex;"><span>    input_tensor_values[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">cast</span>(c.float)i <span style="color:#f92672">/</span> (<span style="color:#66d9ef">cast</span>(c.float)input_tensor_size <span style="color:#f92672">+</span> <span style="color:#a6e22e">1</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// create input tensor object from data values</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">memory_info</span>: ^<span style="color:#a6e22e">OrtMemoryInfo</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">CreateCpuMemoryInfo</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">OrtAllocatorType</span>.<span style="color:#a6e22e">OrtArenaAllocator</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">OrtMemType</span>.<span style="color:#a6e22e">OrtMemTypeDefault</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">memory_info</span>,
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// create input tensor object from data values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>memory_info<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtMemoryInfo
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.CreateCpuMemoryInfo(
+</span></span><span style="display:flex;"><span>    OrtAllocatorType.OrtArenaAllocator,
+</span></span><span style="display:flex;"><span>    OrtMemType.OrtMemTypeDefault,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>memory_info,
 </span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseMemoryInfo</span>(<span style="color:#a6e22e">memory_info</span>)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseMemoryInfo(memory_info)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">input_tensor</span>: ^<span style="color:#a6e22e">OrtValue</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">CreateTensorWithDataAsOrtValue</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">memory_info</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cast</span>(<span style="color:#a6e22e">rawptr</span>)<span style="color:#a6e22e">raw_data</span>(<span style="color:#a6e22e">input_tensor_values</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">input_tensor_size</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">size_of</span>(<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">float</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cast</span>(^<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">int64_t</span>)<span style="color:#a6e22e">raw_data</span>(<span style="color:#a6e22e">input_node_dims</span>),
-</span></span><span style="display:flex;"><span>    len(<span style="color:#a6e22e">input_node_dims</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ONNXTensorElementDataType</span>.<span style="color:#a6e22e">ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">input_tensor</span>,
+</span></span><span style="display:flex;"><span>input_tensor<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtValue
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.CreateTensorWithDataAsOrtValue(
+</span></span><span style="display:flex;"><span>    memory_info,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">cast</span>(<span style="color:#66d9ef">rawptr</span>)raw_data(input_tensor_values),
+</span></span><span style="display:flex;"><span>    input_tensor_size <span style="color:#f92672">*</span> size_of(c.float),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">cast</span>(<span style="color:#f92672">^</span>c.int64_t)raw_data(input_node_dims),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">len</span>(input_node_dims),
+</span></span><span style="display:flex;"><span>    ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>input_tensor,
 </span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseValue</span>(<span style="color:#a6e22e">input_tensor</span>)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseValue(input_tensor)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">is_tensor</span>: <span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">int</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">IsTensor</span>(<span style="color:#a6e22e">input_tensor</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">is_tensor</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">is_tensor</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;input_tensor not a tensor&#34;</span>)
+</span></span><span style="display:flex;"><span>is_tensor<span style="color:#f92672">:</span> c.<span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.IsTensor(input_tensor, <span style="color:#f92672">&amp;</span>is_tensor)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span>assert(is_tensor <span style="color:#f92672">==</span> <span style="color:#a6e22e">1</span>, <span style="color:#e6db74">&#34;input_tensor not a tensor&#34;</span>)
 </span></span></code></pre></div><p>Pay attention to how we initialize dynamic arrays in Odin, and how we get a pointer to its inner data. To get a pointer to the inner data of the dynamic array we use <code>raw_data()</code> Odin&rsquo;s intrinsic. And then, we cast it to the raw pointer <code>cast(rawptr)</code> which is equivalent to casting to the <code>void*</code> in C.</p>
 <h4 id="run-session-1">Run session</h4>
 <p>At the moment, we&rsquo;ve prepared a session and allocated input tensor as well as names and dimensions of input and output nodes. It was a long, tedious, but necessary preparation.</p>
@@ -667,24 +667,24 @@
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(g_ort<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">IsTensor</span>(output_tensor, <span style="color:#f92672">&amp;</span>is_tensor));
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">assert</span>(is_tensor);
 </span></span></code></pre></div><p>At this point, Odin&rsquo;s code should be clear and readable. I hope no extra explanations are required at the moment:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">output_tensor</span>: ^<span style="color:#a6e22e">OrtValue</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">run_options</span>: ^<span style="color:#a6e22e">OrtRunOptions</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">Run</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">session</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">run_options</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">raw_data</span>(<span style="color:#a6e22e">input_node_names</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">input_tensor</span>,
-</span></span><span style="display:flex;"><span>    len(<span style="color:#a6e22e">input_node_names</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">raw_data</span>(<span style="color:#a6e22e">output_node_names</span>),
-</span></span><span style="display:flex;"><span>    len(<span style="color:#a6e22e">output_node_names</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">output_tensor</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>output_tensor<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtValue
+</span></span><span style="display:flex;"><span>run_options<span style="color:#f92672">:</span> <span style="color:#f92672">^</span>OrtRunOptions
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.Run(
+</span></span><span style="display:flex;"><span>    session,
+</span></span><span style="display:flex;"><span>    run_options,
+</span></span><span style="display:flex;"><span>    raw_data(input_node_names),
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>input_tensor,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">len</span>(input_node_names),
+</span></span><span style="display:flex;"><span>    raw_data(output_node_names),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">len</span>(output_node_names),
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&amp;</span>output_tensor,
 </span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">ReleaseValue</span>(<span style="color:#a6e22e">output_tensor</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">defer</span> g_ort.ReleaseValue(output_tensor)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">IsTensor</span>(<span style="color:#a6e22e">output_tensor</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">is_tensor</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">is_tensor</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;output_tensor not a tensor&#34;</span>)
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.IsTensor(output_tensor, <span style="color:#f92672">&amp;</span>is_tensor)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span>assert(is_tensor <span style="color:#f92672">==</span> <span style="color:#a6e22e">1</span>, <span style="color:#e6db74">&#34;output_tensor not a tensor&#34;</span>)
 </span></span></code></pre></div><h4 id="get-computation-results">Get computation results</h4>
 <p>The time has come to get computation results from ONNX world to our world back. For these purposes, the <code>GetTensorMutableData()</code> function is used.</p>
 <p>The result of the computations is a float array that has a length of 1000. &ldquo;Why 1000?&rdquo; you may ask. This is because there are 1000 classes of images in the ImageNet dataset. The model&rsquo;s output is the vector of probabilities of the image (dummy data in our case) depicting a specific class.</p>
@@ -697,13 +697,13 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Score for class [%d] =  %f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i, floatarr[i]);
 </span></span></code></pre></div><p>You already know that for array pointers we use multi-pointers in Odin:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#a6e22e">floatarr</span>: [^]<span style="color:#a6e22e">c</span>.<span style="color:#66d9ef">float</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">status</span> = <span style="color:#a6e22e">g_ort</span>.<span style="color:#a6e22e">GetTensorMutableData</span>(<span style="color:#a6e22e">output_tensor</span>, <span style="color:#a6e22e">cast</span>(^<span style="color:#a6e22e">rawptr</span>)<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">floatarr</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CheckStatus</span>(<span style="color:#a6e22e">g_ort</span>, <span style="color:#a6e22e">status</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">abs</span>(<span style="color:#a6e22e">floatarr</span>[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.000045</span> &lt; <span style="color:#ae81ff">1e-6</span>, <span style="color:#e6db74">&#34;computition failed&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span>floatarr<span style="color:#f92672">:</span> [<span style="color:#f92672">^</span>]c.float
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> g_ort.GetTensorMutableData(output_tensor, <span style="color:#66d9ef">cast</span>(<span style="color:#f92672">^</span><span style="color:#66d9ef">rawptr</span>)<span style="color:#f92672">&amp;</span>floatarr)
+</span></span><span style="display:flex;"><span>CheckStatus(g_ort, status)
+</span></span><span style="display:flex;"><span>assert(abs(floatarr[<span style="color:#a6e22e">0</span>]) <span style="color:#f92672">-</span> <span style="color:#a6e22e">0</span><span style="color:#ae81ff">.000045</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">1e</span><span style="color:#f92672">-</span><span style="color:#a6e22e">6</span>, <span style="color:#e6db74">&#34;computition failed&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">printfln</span>(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Score for class [%d] =  %.6f&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">floatarr</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">:=</span> <span style="color:#a6e22e">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">5</span>; i <span style="color:#f92672">+=</span> <span style="color:#a6e22e">1</span> {
+</span></span><span style="display:flex;"><span>    fmt.printfln(<span style="color:#e6db74">&#34;&gt;&gt;&gt; Score for class [%d] =  %.6f&#34;</span>, i, floatarr[i])
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="run-model-on-gpu-with-the-use-of-odin">Run model on GPU with the use of Odin</h2>
 <p>The full code described in the post is available on GitHub: <a href="https://github.com/yevhen-k/onnx-odin-squeezenet-inference-demo" target="_blank">https://github.com/yevhen-k/onnx-odin-squeezenet-inference-demo</a></p>
@@ -723,12 +723,12 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://github.com/onnx/models/raw/main/validated/vision/classification/squeezenet/model/squeezenet1.0-8.onnx -Lso squeezenet1.0-8.onnx
 </span></span></code></pre></div></li>
 <li>Edit <code>onnxbinding.odin</code> if necessary to adjust package name or foreign import of <code>libonnxruntime.so</code>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">onnx_bindings</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">when</span> <span style="color:#a6e22e">ODIN_OS</span> <span style="color:#f92672">==</span> .<span style="color:#a6e22e">Linux</span> <span style="color:#a6e22e">do</span> <span style="color:#a6e22e">foreign</span> <span style="color:#f92672">import</span> <span style="color:#a6e22e">onnx</span> <span style="color:#e6db74">&#34;/thirdparty/onnxruntime/lib/libonnxruntime.so&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
-</span></span></code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-odin" data-lang="odin"><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">package</span> onnx_bindings
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">when</span> ODIN_OS <span style="color:#f92672">==</span> .Linux <span style="color:#66d9ef">do</span> <span style="color:#66d9ef">foreign</span> <span style="color:#f92672">import</span> onnx <span style="color:#e6db74">&#34;/thirdparty/onnxruntime/lib/libonnxruntime.so&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span></code></pre></div></li>
 <li>Build
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd ..
 </span></span><span style="display:flex;"><span>odin build onnx-odin-squeezenet-inference-demo -extra-linker-flags:<span style="color:#e6db74">&#34;-Wl,-rpath=/thirdparty/onnxruntime/lib/&#34;</span> -out:onnx-odin-squeezenet-inference-demo/odin_onnx_example
