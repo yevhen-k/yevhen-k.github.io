@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</title>
-    <link>https://yevhen-k.github.io/about/</link>
+    <link>/about/</link>
     <description>Recent content in About on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 07 Sep 2025 14:04:11 +0300</lastBuildDate>
-    <atom:link href="https://yevhen-k.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>https://yevhen-k.github.io/about/about/</link>
+      <link>/about/about/</link>
       <pubDate>Sun, 07 Sep 2025 14:04:11 +0300</pubDate>
-      <guid>https://yevhen-k.github.io/about/about/</guid>
+      <guid>/about/about/</guid>
       <description>&lt;p&gt;I&amp;rsquo;m Yevhen Krasnokutsky, an experienced AI Team Leader and ML Engineer.&lt;/p&gt;&#xA;&lt;p&gt;My work is centered on developing robust solutions using a variety of technologies, including &lt;strong&gt;Python&lt;/strong&gt;, &lt;strong&gt;C++&lt;/strong&gt;, and &lt;strong&gt;PyTorch&lt;/strong&gt;. I have extensive experience with MLOps and have built a strong command of tools like &lt;strong&gt;Kubeflow&lt;/strong&gt;, &lt;strong&gt;MLFlow&lt;/strong&gt;, &lt;strong&gt;MinIO&lt;/strong&gt;, &lt;strong&gt;Airflow&lt;/strong&gt;, &lt;strong&gt;Triton&lt;/strong&gt;, &lt;strong&gt;KServe&lt;/strong&gt;, and &lt;strong&gt;Ray&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I have a particular interest in computer vision and cloud technologies. In my free time, I enjoy exploring niche technologies and programming languages outside of the ML and MLOps space.&lt;/p&gt;</description>
     </item>
   </channel>

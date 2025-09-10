@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</title>
-    <link>/posts/</link>
-    <description>Recent content in Posts on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
+    <title>Triton on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</title>
+    <link>/series/triton/</link>
+    <description>Recent content in Triton on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 09 Sep 2025 20:24:22 +0300</lastBuildDate>
-    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/series/triton/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Triton. Echo Tensor. Part 1</title>
       <link>/posts/triton-echo-tensor-part-1/</link>
@@ -21,20 +21,6 @@
       <pubDate>Tue, 09 Sep 2025 19:24:22 +0300</pubDate>
       <guid>/posts/triton-intro/</guid>
       <description>&lt;h2 id=&#34;my-motivation&#34;&gt;My Motivation&lt;/h2&gt;&#xA;&lt;p&gt;In this new series, I&amp;rsquo;m going to dive into the world of the NVIDIA Triton Inference Server&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. If you&amp;rsquo;re an ML engineer like me, you might have found it tricky to get started with, thanks to the lack of clear examples and tutorials out there. That&amp;rsquo;s exactly why I&amp;rsquo;m writing this &amp;ndash; to help you get the hang of it and use it for your own projects.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-well-be-covering&#34;&gt;What We&amp;rsquo;ll Be Covering&lt;/h2&gt;&#xA;&lt;p&gt;Consider this a mini-course where we&amp;rsquo;ll walk through everything from the basics to more advanced topics. We&amp;rsquo;ll start with setting up your first &amp;ldquo;echo&amp;rdquo; server and understanding the &lt;code&gt;config.pbtxt&lt;/code&gt; file, then work our way up to deploying a deep learning model and benchmarking model ensembles.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Giving Odin Intelligence</title>
-      <link>/posts/giving-odin-intelligence/</link>
-      <pubDate>Mon, 08 Sep 2025 18:15:24 +0300</pubDate>
-      <guid>/posts/giving-odin-intelligence/</guid>
-      <description>&lt;p&gt;&lt;em&gt;Initially posted on &lt;a href=&#34;https://dev.to/yevhenk/giving-odin-intelligence-9h0&#34; target=&#34;_blank&#34;&gt;https://dev.to/yevhenk&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;My adventure with Odin keeps going. I decided to try something unexpected with Odin - deep learning and AI! &amp;ldquo;But how?&amp;rdquo; you might ask. Fortunately, there is a well-known deep-learning framework for running AI models. I&amp;rsquo;m about ONNX.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Familiarity with ONNX&lt;/li&gt;&#xA;&lt;li&gt;Familiarity with C&lt;/li&gt;&#xA;&lt;li&gt;Odin &lt;a href=&#34;https://odin-lang.org/docs/overview&#34; target=&#34;_blank&#34;&gt;Overview&lt;/a&gt; page has been read&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;ONNX has a well-documented C API, which makes it easy to port to Odin.  At least, I hoped it would be easy. But this is another story.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Giving Odin Vision</title>
-      <link>/posts/giving-odin-vision/</link>
-      <pubDate>Mon, 08 Sep 2025 15:59:27 +0300</pubDate>
-      <guid>/posts/giving-odin-vision/</guid>
-      <description>&lt;p&gt;&lt;em&gt;Initially posted on &lt;a href=&#34;https://dev.to/yevhenk/giving-odin-vision-1fd5&#34; target=&#34;_blank&#34;&gt;https://dev.to/yevhenk&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h2&gt;&#xA;&lt;p&gt;This post is about my experience with &lt;a href=&#34;https://odin-lang.org/&#34; target=&#34;_blank&#34;&gt;Odin programming language&lt;/a&gt;. So, I won&amp;rsquo;t talk about its features and advantages and provide basic tutorials. There are plenty of materials on those topics.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prologue&#34;&gt;Prologue&lt;/h2&gt;&#xA;&lt;p&gt;Recently, I was browsing YouTube unconsciously and fell into a pit of recommendations about programming languages. Odin was one of them. Many famous tech YouTubers either talked about Odin or interviewed Ginger Bill (Odin&amp;rsquo;s creator). So, I checked Odin&amp;rsquo;s &lt;a href=&#34;https://odin-lang.org/docs/overview/&#34; target=&#34;_blank&#34;&gt;overwiew&lt;/a&gt; page and found the language interesting to give it a try.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

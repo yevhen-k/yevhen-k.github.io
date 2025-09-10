@@ -2,43 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://yevhen-k.github.io/tags/c/</loc>
+    <loc>/posts/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/tags/python/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/tags/serving/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/series/triton/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/tags/triton/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/posts/triton-echo-tensor-part-1/</loc>
+    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/posts/triton-intro/</loc>
+    <lastmod>2025-09-09T19:24:22+03:00</lastmod>
+  </url><url>
+    <loc>/tags/c/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/posts/giving-odin-intelligence/</loc>
+    <loc>/posts/giving-odin-intelligence/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/series/odin/</loc>
+    <loc>/series/odin/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/tags/odin/</loc>
+    <loc>/tags/odin/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/tags/onnx/</loc>
+    <loc>/tags/onnx/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/posts/</loc>
-    <lastmod>2025-09-08T18:15:24+03:00</lastmod>
-  </url><url>
-    <loc>https://yevhen-k.github.io/series/</loc>
-    <lastmod>2025-09-08T18:15:24+03:00</lastmod>
-  </url><url>
-    <loc>https://yevhen-k.github.io/tags/</loc>
-    <lastmod>2025-09-08T18:15:24+03:00</lastmod>
-  </url><url>
-    <loc>https://yevhen-k.github.io/</loc>
-    <lastmod>2025-09-08T18:15:24+03:00</lastmod>
-  </url><url>
-    <loc>https://yevhen-k.github.io/posts/giving-odin-vision/</loc>
+    <loc>/posts/giving-odin-vision/</loc>
     <lastmod>2025-09-08T15:59:27+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/tags/opencv/</loc>
+    <loc>/tags/opencv/</loc>
     <lastmod>2025-09-08T15:59:27+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2025-09-07T14:04:11+03:00</lastmod>
   </url><url>
-    <loc>https://yevhen-k.github.io/about/about/</loc>
+    <loc>/about/about/</loc>
     <lastmod>2025-09-07T14:04:11+03:00</lastmod>
   </url>
 </urlset>

@@ -2,17 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</title>
-    <link>https://yevhen-k.github.io/series/</link>
+    <link>/series/</link>
     <description>Recent content in Series on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Sep 2025 18:15:24 +0300</lastBuildDate>
-    <atom:link href="https://yevhen-k.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Sep 2025 20:24:22 +0300</lastBuildDate>
+    <atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Triton</title>
+      <link>/series/triton/</link>
+      <pubDate>Tue, 09 Sep 2025 20:24:22 +0300</pubDate>
+      <guid>/series/triton/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Odin</title>
-      <link>https://yevhen-k.github.io/series/odin/</link>
+      <link>/series/odin/</link>
       <pubDate>Mon, 08 Sep 2025 18:15:24 +0300</pubDate>
-      <guid>https://yevhen-k.github.io/series/odin/</guid>
+      <guid>/series/odin/</guid>
       <description></description>
     </item>
   </channel>
