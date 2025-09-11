@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.7750550c0319f5de56d916b91e642bf72a5bd09ee50b201dc2ed9db69d6177a8.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Yevhen Krasnokutsky - Triton. Echo Tensor. Part 1</title>
+<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Echo&#32;Tensor.&#32;Part&#32;1 />
+<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Echo&#32;Tensor.&#32;Part&#32;1 />
+<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Echo&#32;Tensor.&#32;Part&#32;1 />
+<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Echo&#32;Tensor.&#32;Part&#32;1 />
+<meta property="og:site_name" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="/series/triton/triton-echo-tensor-part-1/" />
+<link rel="canonical" href="/series/triton/triton-echo-tensor-part-1/" itemprop="url" />
+<meta name="url" content="/series/triton/triton-echo-tensor-part-1/" />
+<meta name="twitter:url" content="/series/triton/triton-echo-tensor-part-1/" />
+<meta property="og:url" content="/series/triton/triton-echo-tensor-part-1/" />
+
+
+<meta property="og:updated_time" content="2025-09-09T20:24:22&#43;03:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.148.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.ce70613c4f2e83aa9c5d878df1c3162924a67e9d9baa8aa1ed16319871164f29.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="/">
+                <img src="/brand_image.jpg" alt="brand image">
+            </a>
+        
+        
+            <a href="/">
+                <h1>Yevhen Krasnokutsky</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    PhD <br> ML Engineer <br> Data Scientist
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+                        
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                    <li class="heading">
+                        <a href="/series/">Series</a>
+                    </li>
+                
+                
+                        
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+                        
+                
+            
+                
+                    <li class="heading">
+                        <a href="/tags/">Tags</a>
+                    </li>
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+<a target="_blank" class="social" title="GitHub" href="https://github.com/yevhen-k">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+        <path fill="currentColor"
+            d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z" />
+    </svg>
+</a>
+
+
+
+<a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/yevhen-krasnokutsky/">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+        <path fill="currentColor"
+            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z" />
+    </svg>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a target="_blank" class="social" title="Email" href="mailto:yevhen.krasnokutsky@gmail.com">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+        <path fill="currentColor"
+            d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="ORCID" href="https://orcid.org/0000-0002-1351-4233">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M294.8 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm-80.8 360.8h-29.8v-207.5h29.8zm-14.9-231.1a19.6 19.6 0 1 1 19.6-19.6 19.6 19.6 0 0 1 -19.6 19.6zM300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9C410 318.4 368.4 369 300 369z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="Google Scholar" href="https://scholar.google.com/citations?user=No2aYekAAAAJ">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M390.9 298.5c0 0 0 .1 .1 .1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64h0c1.7-3.6 3.6-7.2 5.6-10.7c4.4-7.6 9.4-14.7 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3c33.6 0 64.6 11.1 89.6 29.9c9.1 6.9 17.4 14.7 24.8 23.5c5.6 6.6 10.6 13.8 15 21.3c2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0 512 202.7l-94.7 77.1z" />
+    </svg>
+</a>
+
+
+        <p class="footnote">
+    
+    &copy; 2025 The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist. All rights reserved.
+</p>
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="/series/triton/triton-echo-tensor-part-1/">Triton. Echo Tensor. Part 1</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-09-09T20:24:22&#43;0300" class="post-date">
+        September 9, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>9 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-triton">
+        <a href="/tags/triton">triton</a>
+      </li>
+      
+      <li class="tag-python">
+        <a href="/tags/python">python</a>
+      </li>
+      
+      <li class="tag-serving">
+        <a href="/tags/serving">serving</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+  <p class="seriesname">
+    Series: <a href="/series/triton">Triton</a>
+  </p>
+  
+
+  
+</div>
+
+  <h2 id="the-core-concepts-of-triton">The Core Concepts of Triton</h2>
+<p>In the following sections we&rsquo;re going to briefly answer on the questions about Triton configuration needed for model serving:</p>
+<ol>
+<li><em>What</em> needs to be configured?</li>
+<li><em>Where</em> does the configuration happen?</li>
+<li><em>How</em> do we actually configure it?</li>
+</ol>
+<h3 id="tensors-the-heart-of-triton">Tensors: The Heart of Triton</h3>
+<p><em>So, what needs to be configured?</em></p>
+<p>The entire <strong>Triton Inference Server</strong> (from here on, I&rsquo;ll just say &ldquo;Triton&rdquo; to refer to both the client and server) is built around a single, powerful idea: <strong>tensors</strong>. Yep, those very same tensors you&rsquo;re already familiar with from deep learning for inputs, outputs, and matrix representations.</p>
+<p>To handle these tensors on both the server and client sides, Triton relies on <strong>NumPy</strong>, a package every ML and data science pro knows like the back of their hand.</p>
+<p>Each tensor has three essential properties we need to set up:</p>
+<ul>
+<li><strong>Shape</strong>: The dimensions of your data (e.g., [1, 224, 224, 3]).</li>
+<li><strong>Data Type</strong>: The type of data it holds (e.g., float32, int64).</li>
+<li><strong>Name</strong>: This one might seem a bit odd, but think about it: every variable in Python has a name, PyTorch layers have names, and ONNX models have names for their nodes. So, it&rsquo;s only natural that Triton uses names to identify these tensors.</li>
+</ul>
+<blockquote class="note"><p><strong>Keep in mind</strong>: At its core, a tensor is just a block of bytes. If your data can be represented as bytes, you can send it to and receive it from Triton.</p></blockquote>
+<h3 id="model-repository">Model Repository</h3>
+<p><em>Where does it need to be configured?</em></p>
+<p>On the server side, all the action takes place in the model repository. You&rsquo;ll need to set this up to follow a specific, strict layout <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
+<ul>
+<li>for python:
+<pre tabindex="0"><code>&lt;model-repository-path&gt;/
+    &lt;model-name&gt;/
+        config.pbtxt
+        1/
+            model.py
+</code></pre></li>
+<li>for onnx:
+<pre tabindex="0"><code>&lt;model-repository-path&gt;/
+    &lt;model-name&gt;/
+        config.pbtxt
+        1/
+            model.onnx
+</code></pre></li>
+</ul>
+<h4 id="a-real-world-example">A Real-World Example</h4>
+<p>To put this into perspective, let&rsquo;s look at a concrete example of a model repository layout:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tree models/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>models
+</span></span><span style="display:flex;"><span>└── echo-tensor
+</span></span><span style="display:flex;"><span>    ├── <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    │   └── model.py
+</span></span><span style="display:flex;"><span>    └── config.pbtxt
+</span></span></code></pre></div><p>In this example, <code>echo-tensor</code> is the name of our model, and <code>1</code> is its version. Inside the version folder, you&rsquo;ll find two crucial files: <code>model.py</code>, which contains our model&rsquo;s code, and <code>config.pbtxt</code>, which holds all the configuration for the Triton server.</p>
+<p>Think of <code>config.pbtxt</code> as a blueprint. It tells the Triton server how to process incoming client requests and how to feed that data to the model defined in <code>model.py</code>.</p>
+<p>This brings us back to our tensors. Their shapes, data types, and names must be configured in two places:</p>
+<ul>
+<li><strong>On the server side</strong>, within both the <code>config.pbtxt</code> file and the <code>model.py</code> script (for Python-based models).</li>
+<li><strong>On the client side</strong>, when you&rsquo;re preparing your request.</li>
+</ul>
+<h3 id="tensor-schema">Tensor Schema</h3>
+<p><em>So, how do we configure it?</em></p>
+<p>The easiest way to understand this is to walk through an example.</p>
+<h4 id="example-model">Example Model</h4>
+<p>Let&rsquo;s imagine we have a simple model named <strong>&ldquo;echo-tensor&rdquo;</strong>. This model takes a single input tensor with a shape of <code>[2, 3]</code> and a data type of <code>float32</code>. All it does is return the exact same tensor, unchanged, as its output.</p>
+<h4 id="the-configpbtxt-file">The <code>config.pbtxt</code> File</h4>
+<p>To get this model running, we need to describe it in the <code>config.pbtxt</code> file. This file must specify the <strong>model name</strong>, its <strong>inputs</strong>, and its <strong>outputs</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;echo-tensor&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>max_batch_size<span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>backend<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;python&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>input [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;input:tensor&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_FP32<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>output [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;output:tensor&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_FP32<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>instance_group [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      count<span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>      kind<span style="color:#f92672">:</span> KIND_CPU<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>The configuration starts with some general settings:</p>
+<ul>
+<li><code>model_name</code>: A string that uniquely identifies your model. For our example, this is <code>&quot;echo-tensor&quot;</code>.</li>
+<li><code>max_batch_size</code>: This controls how many requests Triton can process at once. If it&rsquo;s set to <code>0</code>, you must specify all dimensions of your input and output tensors. If it&rsquo;s greater than <code>0</code>, the first dimension is treated as the batch dimension and should be omitted from your dims list. We&rsquo;ll dive deeper into this later.</li>
+<li><code>backend</code>: This tells Triton what kind of model you&rsquo;re using (e.g., Python, ONNX, TensorFlow). You can find a list of all available backends here<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</li>
+<li><code>instance_group</code>: This section allocates the hardware resources for your model. It lets you specify whether to use a CPU (<code>KIND_CPU</code>) or a GPU (<code>KIND_GPU</code>) and how many instances to run.</li>
+</ul>
+<p>When you define your input and output tensors, you&rsquo;ll see how we use name, data_type, and dims to describe each one. The syntax allows for multiple inputs and outputs, and each can have its own distinct properties. You can find a complete list of supported data types here <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+<p>
+
+
+<details>
+    <summary>Table: Correspondence between data types in config.pbtxt and models</summary>
+   <table>
+  <thead>
+      <tr>
+          <th><strong>Model Config</strong></th>
+          <th><strong>TensorRT</strong></th>
+          <th><strong>ONNX Runtime</strong></th>
+          <th><strong>PyTorch</strong></th>
+          <th><strong>API</strong></th>
+          <th><strong>NumPy</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>TYPE_BOOL</strong></td>
+          <td>kBOOL</td>
+          <td>BOOL</td>
+          <td>kBool</td>
+          <td>BOOL</td>
+          <td>bool</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_UINT8</strong></td>
+          <td>kUINT8</td>
+          <td>UINT8</td>
+          <td>kByte</td>
+          <td>UINT8</td>
+          <td>uint8</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_UINT16</strong></td>
+          <td></td>
+          <td>UINT16</td>
+          <td></td>
+          <td>UINT16</td>
+          <td>uint16</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_UINT32</strong></td>
+          <td></td>
+          <td>UINT32</td>
+          <td></td>
+          <td>UINT32</td>
+          <td>uint32</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_UINT64</strong></td>
+          <td></td>
+          <td>UINT64</td>
+          <td></td>
+          <td>UINT64</td>
+          <td>uint64</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_INT8</strong></td>
+          <td>kINT8</td>
+          <td>INT8</td>
+          <td>kChar</td>
+          <td>INT8</td>
+          <td>int8</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_INT16</strong></td>
+          <td></td>
+          <td>INT16</td>
+          <td>kShort</td>
+          <td>INT16</td>
+          <td>int16</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_INT32</strong></td>
+          <td>kINT32</td>
+          <td>INT32</td>
+          <td>kInt</td>
+          <td>INT32</td>
+          <td>int32</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_INT64</strong></td>
+          <td>kINT64</td>
+          <td>INT64</td>
+          <td>kLong</td>
+          <td>INT64</td>
+          <td>int64</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_FP16</strong></td>
+          <td>kHALF</td>
+          <td>FLOAT16</td>
+          <td></td>
+          <td>FP16</td>
+          <td>float16</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_FP32</strong></td>
+          <td>kFLOAT</td>
+          <td>FLOAT</td>
+          <td>kFloat</td>
+          <td>FP32</td>
+          <td>float32</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_FP64</strong></td>
+          <td></td>
+          <td>DOUBLE</td>
+          <td>kDouble</td>
+          <td>FP64</td>
+          <td>float64</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_STRING</strong></td>
+          <td></td>
+          <td>STRING</td>
+          <td></td>
+          <td>BYTES</td>
+          <td>dtype(object)</td>
+      </tr>
+      <tr>
+          <td><strong>TYPE_BF16</strong></td>
+          <td>kBF16</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>BF16</td>
+      </tr>
+  </tbody>
+</table>
+
+</details>
+
+<br></p>
+<h4 id="the-client-side">The Client Side</h4>
+<p>Once your model is configured on the server, the next step is to set up the <strong>client</strong> to match the schema defined in your <code>config.pbtxt</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># client-echo-tensor.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.grpc <span style="color:#66d9ef">as</span> grpcclient
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.utils <span style="color:#66d9ef">as</span> utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>triton_server_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;localhost:8001&#34;</span>
+</span></span><span style="display:flex;"><span>model_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;echo-tensor&#34;</span>
+</span></span><span style="display:flex;"><span>input_tensor_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;input:tensor&#34;</span>
+</span></span><span style="display:flex;"><span>output_tensor_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;output:tensor&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 01. Make a client</span>
+</span></span><span style="display:flex;"><span>grpc_client <span style="color:#f92672">=</span> grpcclient<span style="color:#f92672">.</span>InferenceServerClient(url<span style="color:#f92672">=</span>triton_server_url, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 02. Prepare data for the model</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># with a proper shape and type</span>
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(
+</span></span><span style="display:flex;"><span>    [
+</span></span><span style="display:flex;"><span>        [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>        [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>],
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32,
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 03. Convert data to the Triton internal representation:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - set inputs</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - set outputs</span>
+</span></span><span style="display:flex;"><span>inputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferInput(
+</span></span><span style="display:flex;"><span>        input_tensor_name, np_data<span style="color:#f92672">.</span>shape, utils<span style="color:#f92672">.</span>np_to_triton_dtype(np_data<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_data_from_numpy(np_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>outputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferRequestedOutput(output_tensor_name),
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 04. Make a request to the server</span>
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> grpc_client<span style="color:#f92672">.</span>infer(model_name, inputs, outputs<span style="color:#f92672">=</span>outputs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 05. Convert results back to numpy</span>
+</span></span><span style="display:flex;"><span>response_arr <span style="color:#f92672">=</span> results<span style="color:#f92672">.</span>as_numpy(<span style="color:#e6db74">&#34;output:tensor&#34;</span>)
+</span></span></code></pre></div><p>Triton provides four types of clients to communicate with the server:</p>
+<ol>
+<li><strong>HTTP Client</strong>: <code>import tritonclient.http as httpclient</code></li>
+<li><strong>Asynchronous HTTP Client</strong>: <code>import tritonclient.http.aio as httpclient</code></li>
+<li><strong>gRPC Client</strong>: <code>import tritonclient.grpc as grpcclient</code></li>
+<li><strong>Asynchronous gRPC Client</strong>: <code>import tritonclient.grpc.aio as grpcclient</code></li>
+</ol>
+<p>All four clients share the same API, so you can switch between them easily. We&rsquo;ll explore the asynchronous clients in more detail later on, as they&rsquo;re great for improving performance.</p>
+<h4 id="setting-up-the-server">Setting Up the Server</h4>
+<p>Now that we&rsquo;ve covered the client, let&rsquo;s turn our attention to the server. The first step is to organize our <strong>model repository</strong> according to the model name we&rsquo;ve chosen:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tree models/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>models
+</span></span><span style="display:flex;"><span>└── echo-tensor
+</span></span><span style="display:flex;"><span>    ├── <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    │   └── model.py
+</span></span><span style="display:flex;"><span>    └── config.pbtxt
+</span></span></code></pre></div><h5 id="the-modelpy-file">The <code>model.py</code> File</h5>
+<p>We&rsquo;ve already prepared the content for <code>config.pbtxt</code>, so now it&rsquo;s time to create our model&rsquo;s logic in the <code>model.py</code> script.</p>
+<p>Every Python-based Triton model must follow a specific template. This structure ensures that Triton can properly load your model, initialize it, and run inference:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict, List
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> triton_python_backend_utils <span style="color:#66d9ef">as</span> pb_utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TritonPythonModel</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(self, args: Dict[str, str]) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        This function is optional. Executed only once when model is loaded.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Parameters
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ----------
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        args : dict
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Both keys and values are strings. The dictionary keys and values are:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_config: A JSON string containing the model configuration
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_instance_kind: A string containing model instance kind
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_instance_device_id: A string containing model instance device ID
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_repository: Model repository path
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_version: Model version
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          * model_name: Model name
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self, requests: <span style="color:#e6db74">&#34;List[pb_utils.InferenceRequest]&#34;</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;List[pb_utils.InferenceResponse]&#34;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        The function is called when inference request is made.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        For each `request` in `requests` response must be prepared.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Basically, len(requests) == batch_size.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        If there is an error, you can set the error argument 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        when creating a pb_utils.InferenceResponse:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        # pb_utils.InferenceResponse(
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        #    output_tensors=..., TritonError(&#34;An error occurred&#34;))
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">finalize</span>(self) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        This function is optional. Executed only once when model is unloaded.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>Now, with that template in mind, let&rsquo;s write the code for our <strong>&ldquo;echo-tensor&rdquo;</strong> model example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># model.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict, List
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> triton_python_backend_utils <span style="color:#66d9ef">as</span> pb_utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TritonPythonModel</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(self, args: Dict[str, str]) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># NOTE: here we&#39;re loading config from `config.pbtxt` file</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># and getting all necessary data:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># - tensor data type</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># - tensor shape</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model_config <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(args[<span style="color:#e6db74">&#34;model_config&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        output_config <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_output_config_by_name(
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>model_config, <span style="color:#e6db74">&#34;output:tensor&#34;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output_dtype <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>triton_string_to_numpy(output_config[<span style="color:#e6db74">&#34;data_type&#34;</span>])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">=</span> output_config[<span style="color:#e6db74">&#34;dims&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self, requests: <span style="color:#e6db74">&#34;List[pb_utils.InferenceRequest]&#34;</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;List[pb_utils.InferenceResponse]&#34;</span>:
+</span></span><span style="display:flex;"><span>        responses <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> request <span style="color:#f92672">in</span> requests:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Get input by name</span>
+</span></span><span style="display:flex;"><span>            input_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_tensor_by_name(request, <span style="color:#e6db74">&#34;input:tensor&#34;</span>)
+</span></span><span style="display:flex;"><span>            input_arr: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> input_tensor<span style="color:#f92672">.</span>as_numpy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Got input numpy array: `input_arr`.</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Process `input_arr` here</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># [...]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># print(f&#34;Got np.array: {input_arr}&#34;, flush=True)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Prepare output by name</span>
+</span></span><span style="display:flex;"><span>            outputs <span style="color:#f92672">=</span> input_arr
+</span></span><span style="display:flex;"><span>            out_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>Tensor(
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;output:tensor&#34;</span>, outputs<span style="color:#f92672">.</span>astype(self<span style="color:#f92672">.</span>output_dtype)
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            inference_response <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>InferenceResponse(output_tensors<span style="color:#f92672">=</span>[out_tensor])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            responses<span style="color:#f92672">.</span>append(inference_response)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> responses
+</span></span></code></pre></div><h2 id="running-your-model">Running Your Model</h2>
+<p>We&rsquo;ve now described our input and output tensors in the model script, the <code>config.pbtxt</code> file, and the client code. All that&rsquo;s left is to deploy the model and run our first inference.</p>
+<h3 id="starting-the-server">Starting the Server</h3>
+<p>To get your model up and running on the server, just use a simple Docker command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --gpus<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --rm --net<span style="color:#f92672">=</span>host -v <span style="color:#e6db74">${</span>PWD<span style="color:#e6db74">}</span>/models:/models nvcr.io/nvidia/tritonserver:24.08-py3 tritonserver --model-repository<span style="color:#f92672">=</span>/models
+</span></span></code></pre></div><p>If everything loads correctly, you&rsquo;ll see a log that looks something like this, indicating your model is ready for requests:</p>
+<pre tabindex="0"><code>+--------------------+---------+--------+
+| Model              | Version | Status |
++--------------------+---------+--------+
+| echo-tensor        | 1       | READY  |
++--------------------+---------+--------+
+</code></pre><p>You can even use <code>curl</code> to send a quick request to check the model&rsquo;s status and make sure it&rsquo;s alive and well:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST localhost:8000/v2/repository/index | jq
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;echo-tensor&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;READY&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h3 id="running-inference-from-the-client">Running Inference from the Client</h3>
+<p>Finally, to send a request to your model from the client side, just run your script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python client-echo-tensor.py
+</span></span></code></pre></div><p>If all goes according to plan, the response you get back will be the exact same tensor you sent. You&rsquo;ve successfully completed your first end-to-end inference with Triton!</p>
+<p>For full code of the <code>echo-tensor</code> example, please visit <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check the following files and directories:</p>
+<ul>
+<li><code>client-echo-tensor.py</code></li>
+<li><code>models/echo-tensor</code></li>
+</ul>
+<h2 id="home-assignment">Home Assignment</h2>
+<p>As a home assignment, just play around with the code we&rsquo;ve made:</p>
+<ol>
+<li>Change data type</li>
+<li>Change input/output shapes</li>
+<li>Change model name</li>
+<li>Change input/output names</li>
+<li>Make transrofmations of the input tensor, for example
+<ol>
+<li>Double it</li>
+<li>Reshape it</li>
+</ol>
+</li>
+<li>Try to make a model with two inputs and two outputs and return sum and difference between the two inputs</li>
+</ol>
+<p>For more tutorials and examples, visit:</p>
+<ul>
+<li><code>triton-inference-server/tutorials</code> <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+<li><code>triton-inference-server/python_backend/examples</code> <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+<li><code>triton-inference-server/server</code> <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></li>
+</ul>
+<h2 id="wrapping-it-up">Wrapping It Up</h2>
+<p>Getting a Triton server up and running can feel a bit complex at first, with a lot of small details to keep track of. But we did it! We successfully set up a basic <strong>echo server</strong> and learned how to send and receive <strong>tensors</strong> &ndash; the fundamental building blocks of Triton.</p>
+<p>Throughout this series, we discovered that every input and output tensor must be precisely defined by its <strong>name</strong>, <strong>shape</strong>, and <strong>data type</strong> within the crucial <code>config.pbtxt</code> file.</p>
+<p>By the end of this tutorial, you should have a solid understanding of a minimal project structure and feel confident in your ability to prepare data for inference, execute the inference, and handle the response.</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Model Files: <a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_repository.html#model-files" target="_blank">https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_repository.html#model-files</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Where can I find all the backends that are available for Triton? <a href="https://github.com/triton-inference-server/backend?tab=readme-ov-file#where-can-i-find-all-the-backends-that-are-available-for-triton" target="_blank">https://github.com/triton-inference-server/backend?tab=readme-ov-file#where-can-i-find-all-the-backends-that-are-available-for-triton</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Triton Data Types: <a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#datatypes" target="_blank">https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#datatypes</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Tutorials and examples for Triton Inference Server: <a href="https://github.com/triton-inference-server/tutorials" target="_blank">https://github.com/triton-inference-server/tutorials</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Python Triton Backend Examples: <a href="https://github.com/triton-inference-server/python_backend/tree/main/examples" target="_blank">https://github.com/triton-inference-server/python_backend/tree/main/examples</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Triton Inference Server: <a href="https://github.com/triton-inference-server/server" target="_blank">https://github.com/triton-inference-server/server</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  
+  <hr>
+<div class="footer">
+    
+    
+    
+    <p>
+    This is a post in the <b><a href="/series/triton">Triton</a></b> series.
+        <br>Other posts in this series:
+        <ul class="series">
+            
+            
+            
+            <li>
+                September 9, 2025 -
+                
+                    Triton. Echo Tensor. Part 1
+                
+            </li>
+            
+            <li>
+                September 9, 2025 -
+                
+                    <a href="/series/triton/triton-intro/">Triton Intro</a>
+                
+            </li>
+            
+        </ul>
+    </p>
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-core-concepts-of-triton">The Core Concepts of Triton</a>
+      <ul>
+        <li><a href="#tensors-the-heart-of-triton">Tensors: The Heart of Triton</a></li>
+        <li><a href="#model-repository">Model Repository</a></li>
+        <li><a href="#tensor-schema">Tensor Schema</a></li>
+      </ul>
+    </li>
+    <li><a href="#running-your-model">Running Your Model</a>
+      <ul>
+        <li><a href="#starting-the-server">Starting the Server</a></li>
+        <li><a href="#running-inference-from-the-client">Running Inference from the Client</a></li>
+      </ul>
+    </li>
+    <li><a href="#home-assignment">Home Assignment</a></li>
+    <li><a href="#wrapping-it-up">Wrapping It Up</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
+        </div>
+    </body>
+</html>

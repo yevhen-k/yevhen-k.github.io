@@ -2,9 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2025-09-09T20:24:22+03:00</lastmod>
-  </url><url>
     <loc>/tags/python/</loc>
     <lastmod>2025-09-09T20:24:22+03:00</lastmod>
   </url><url>
@@ -26,16 +23,16 @@
     <loc>/tags/triton/</loc>
     <lastmod>2025-09-09T20:24:22+03:00</lastmod>
   </url><url>
-    <loc>/posts/triton-echo-tensor-part-1/</loc>
+    <loc>/series/triton/triton-echo-tensor-part-1/</loc>
     <lastmod>2025-09-09T20:24:22+03:00</lastmod>
   </url><url>
-    <loc>/posts/triton-intro/</loc>
+    <loc>/series/triton/triton-intro/</loc>
     <lastmod>2025-09-09T19:24:22+03:00</lastmod>
   </url><url>
     <loc>/tags/c/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>/posts/giving-odin-intelligence/</loc>
+    <loc>/series/odin/giving-odin-intelligence/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
     <loc>/series/odin/</loc>
@@ -47,7 +44,7 @@
     <loc>/tags/onnx/</loc>
     <lastmod>2025-09-08T18:15:24+03:00</lastmod>
   </url><url>
-    <loc>/posts/giving-odin-vision/</loc>
+    <loc>/series/odin/giving-odin-vision/</loc>
     <lastmod>2025-09-08T15:59:27+03:00</lastmod>
   </url><url>
     <loc>/tags/opencv/</loc>

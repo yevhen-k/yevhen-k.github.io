@@ -10,16 +10,16 @@
     <atom:link href="/tags/serving/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Triton. Echo Tensor. Part 1</title>
-      <link>/posts/triton-echo-tensor-part-1/</link>
+      <link>/series/triton/triton-echo-tensor-part-1/</link>
       <pubDate>Tue, 09 Sep 2025 20:24:22 +0300</pubDate>
-      <guid>/posts/triton-echo-tensor-part-1/</guid>
+      <guid>/series/triton/triton-echo-tensor-part-1/</guid>
       <description>&lt;h2 id=&#34;the-core-concepts-of-triton&#34;&gt;The Core Concepts of Triton&lt;/h2&gt;&#xA;&lt;p&gt;In the following sections we&amp;rsquo;re going to briefly answer on the questions about Triton configuration needed for model serving:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;em&gt;What&lt;/em&gt; needs to be configured?&lt;/li&gt;&#xA;&lt;li&gt;&lt;em&gt;Where&lt;/em&gt; does the configuration happen?&lt;/li&gt;&#xA;&lt;li&gt;&lt;em&gt;How&lt;/em&gt; do we actually configure it?&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h3 id=&#34;tensors-the-heart-of-triton&#34;&gt;Tensors: The Heart of Triton&lt;/h3&gt;&#xA;&lt;p&gt;&lt;em&gt;So, what needs to be configured?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;The entire &lt;strong&gt;Triton Inference Server&lt;/strong&gt; (from here on, I&amp;rsquo;ll just say &amp;ldquo;Triton&amp;rdquo; to refer to both the client and server) is built around a single, powerful idea: &lt;strong&gt;tensors&lt;/strong&gt;. Yep, those very same tensors you&amp;rsquo;re already familiar with from deep learning for inputs, outputs, and matrix representations.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Triton Intro</title>
-      <link>/posts/triton-intro/</link>
+      <link>/series/triton/triton-intro/</link>
       <pubDate>Tue, 09 Sep 2025 19:24:22 +0300</pubDate>
-      <guid>/posts/triton-intro/</guid>
+      <guid>/series/triton/triton-intro/</guid>
       <description>&lt;h2 id=&#34;my-motivation&#34;&gt;My Motivation&lt;/h2&gt;&#xA;&lt;p&gt;In this new series, I&amp;rsquo;m going to dive into the world of the NVIDIA Triton Inference Server&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. If you&amp;rsquo;re an ML engineer like me, you might have found it tricky to get started with, thanks to the lack of clear examples and tutorials out there. That&amp;rsquo;s exactly why I&amp;rsquo;m writing this &amp;ndash; to help you get the hang of it and use it for your own projects.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-well-be-covering&#34;&gt;What We&amp;rsquo;ll Be Covering&lt;/h2&gt;&#xA;&lt;p&gt;Consider this a mini-course where we&amp;rsquo;ll walk through everything from the basics to more advanced topics. We&amp;rsquo;ll start with setting up your first &amp;ldquo;echo&amp;rdquo; server and understanding the &lt;code&gt;config.pbtxt&lt;/code&gt; file, then work our way up to deploying a deep learning model and benchmarking model ensembles.&lt;/p&gt;</description>
     </item>
   </channel>

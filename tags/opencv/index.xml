@@ -10,9 +10,9 @@
     <atom:link href="/tags/opencv/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Giving Odin Vision</title>
-      <link>/posts/giving-odin-vision/</link>
+      <link>/series/odin/giving-odin-vision/</link>
       <pubDate>Mon, 08 Sep 2025 15:59:27 +0300</pubDate>
-      <guid>/posts/giving-odin-vision/</guid>
+      <guid>/series/odin/giving-odin-vision/</guid>
       <description>&lt;p&gt;&lt;em&gt;Initially posted on &lt;a href=&#34;https://dev.to/yevhenk/giving-odin-vision-1fd5&#34; target=&#34;_blank&#34;&gt;https://dev.to/yevhenk&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h2&gt;&#xA;&lt;p&gt;This post is about my experience with &lt;a href=&#34;https://odin-lang.org/&#34; target=&#34;_blank&#34;&gt;Odin programming language&lt;/a&gt;. So, I won&amp;rsquo;t talk about its features and advantages and provide basic tutorials. There are plenty of materials on those topics.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prologue&#34;&gt;Prologue&lt;/h2&gt;&#xA;&lt;p&gt;Recently, I was browsing YouTube unconsciously and fell into a pit of recommendations about programming languages. Odin was one of them. Many famous tech YouTubers either talked about Odin or interviewed Ginger Bill (Odin&amp;rsquo;s creator). So, I checked Odin&amp;rsquo;s &lt;a href=&#34;https://odin-lang.org/docs/overview/&#34; target=&#34;_blank&#34;&gt;overwiew&lt;/a&gt; page and found the language interesting to give it a try.&lt;/p&gt;</description>
     </item>
   </channel>
