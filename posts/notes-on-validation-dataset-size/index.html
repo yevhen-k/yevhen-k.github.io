@@ -44,41 +44,43 @@
 
 
   
+
+
+
+
+
   
-
-
-
-
+  
+  
 
 
 <!-- Open Graph image and Twitter Card metadata -->
 
-<title itemprop="name">Yevhen Krasnokutsky</title>
-<meta property="og:title" content=Yevhen&#32;Krasnokutsky />
-<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky />
-<meta itemprop="name" content=Yevhen&#32;Krasnokutsky />
-<meta name="application-name" content=Yevhen&#32;Krasnokutsky />
+<title itemprop="name">Yevhen Krasnokutsky - Notes on Validation Dataset Size</title>
+<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Notes&#32;on&#32;Validation&#32;Dataset&#32;Size />
+<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Notes&#32;on&#32;Validation&#32;Dataset&#32;Size />
+<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Notes&#32;on&#32;Validation&#32;Dataset&#32;Size />
+<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Notes&#32;on&#32;Validation&#32;Dataset&#32;Size />
 <meta property="og:site_name" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
 
 
-<meta name="description" content="PhD &lt;br&gt; ML Engineer &lt;br&gt; Data Scientist" />
-<meta itemprop="description" content="PhD &lt;br&gt; ML Engineer &lt;br&gt; Data Scientist" />
-<meta property="og:description" content="PhD &lt;br&gt; ML Engineer &lt;br&gt; Data Scientist" />
-<meta name="twitter:description" content="PhD &lt;br&gt; ML Engineer &lt;br&gt; Data Scientist" />
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
 
 
-<base href="/" />
-<link rel="canonical" href="/" itemprop="url" />
-<meta name="url" content="/" />
-<meta name="twitter:url" content="/" />
-<meta property="og:url" content="/" />
+<base href="/posts/notes-on-validation-dataset-size/" />
+<link rel="canonical" href="/posts/notes-on-validation-dataset-size/" itemprop="url" />
+<meta name="url" content="/posts/notes-on-validation-dataset-size/" />
+<meta name="twitter:url" content="/posts/notes-on-validation-dataset-size/" />
+<meta property="og:url" content="/posts/notes-on-validation-dataset-size/" />
 
 
 <meta property="og:updated_time" content="2025-09-15T14:35:19&#43;03:00" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='/sitemap.xml' />
-<link href="/index.xml" rel="alternate" type="application/rss+xml" title="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
 
 <meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
@@ -453,21 +455,18 @@
 </aside>
 
             <main class="content container">
-                <div class="posts">
-    
-    
-    <article class="post">
-        <div class="info">
+                <div class="post">
+  <div class="info">
   <h1 class="post-title">
-    <a href="/about/about/">About</a>
+    <a href="/posts/notes-on-validation-dataset-size/">Notes on Validation Dataset Size</a>
   </h1>
 
   <div class="headline">
     <div>
       
       
-      <time datetime=" 2025-09-07T14:04:11&#43;0300" class="post-date">
-        September 7, 2025
+      <time datetime=" 2025-09-15T14:35:19&#43;0300" class="post-date">
+        September 15, 2025
       </time>
       
       <span> - </span>
@@ -476,10 +475,26 @@
           
         
 
-        <span>1 min read</span>
+        <span>5 mins read</span>
       </span>
     </div>
 
+    
+    <ul class="tags">
+      
+      <li class="tag-datascience">
+        <a href="/tags/datascience">datascience</a>
+      </li>
+      
+      <li class="tag-validation">
+        <a href="/tags/validation">validation</a>
+      </li>
+      
+      <li class="tag-dataset">
+        <a href="/tags/dataset">dataset</a>
+      </li>
+      
+    </ul>
     
   </div>
 
@@ -489,23 +504,159 @@
   
 </div>
 
-        
-        <p>I&rsquo;m Yevhen Krasnokutsky, an experienced AI Team Leader and ML Engineer.</p>
-<p>My work is centered on developing robust solutions using a variety of technologies, including <strong>Python</strong>, <strong>C++</strong>, and <strong>PyTorch</strong>. I have extensive experience with MLOps and have built a strong command of tools like <strong>Kubeflow</strong>, <strong>MLFlow</strong>, <strong>MinIO</strong>, <strong>Airflow</strong>, <strong>Triton</strong>, <strong>KServe</strong>, and <strong>Ray</strong>.</p>
-<p>I have a particular interest in computer vision and cloud technologies. In my free time, I enjoy exploring niche technologies and programming languages outside of the ML and MLOps space.</p>
-        
-        <div class="read-more-link">
-            <a href="/about/about/">Read More…</a>
-        </div>
-        
-        
-    </article>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+<style>
+.katex { font-size: 1.1em; }
+</style>
+<p>By validation dataset, we mean the specific set of data used to calculate a model&rsquo;s final quality metric. This is where we get the definitive measure of how well our model performs.</p>
+<p><strong>A Quick Note Before We Begin</strong></p>
+<p>The ideas in this post are specifically for metrics like accuracy, which are based on a series of independent &ldquo;yes&rdquo; or &ldquo;no&rdquo; outcomes. These methods do not apply to &ldquo;aggregated&rdquo; metrics like Mean Squared Error (MSE), Mean Absolute Error (MAE), or Root Mean Squared Error (RMSE). We&rsquo;ll be focusing on a different kind of statistical analysis here.</p>
+<h2 id="the-train-validation-split">The Train-Validation Split</h2>
+<p>It&rsquo;s a common practice to split a dataset into a <strong><code>80%/20%</code></strong> ratio, dedicating 80% of the data to training the model and the remaining 20% to validation. But is it enough to have 20% of a dataset to get a good estimation of a quality metric?</p>
+<p>As any data scientist or machine learning engineer knows, a larger training dataset generally leads to better results. However, here, we&rsquo;re not focusing on the bias-variance tradeoff (the balance between underfitting and overfitting). Instead, we&rsquo;re going to discuss something else: the size of the validation set. The bigger the validation set, the more accurate estimation of the model&rsquo;s quality metric.</p>
+<p>A model&rsquo;s quality metric is a <strong>statistical value</strong>, which means it has a <strong>confidence interval</strong> - a range in which the true value is likely to fall. For example, instead of just saying your model has an accuracy of 93%, it&rsquo;s more accurate to say <strong><code>93% ± 2%</code></strong> (with a confidence level of 95%, where z = 1.96). Unfortunately, this level of detail is rarely shared, even by many experienced practitioners. Even by me.</p>
+<h2 id="multiple-observations">Multiple Observations</h2>
+<p>In statistical terms, any quality metric we get from our validation dataset is a single <strong>observation</strong> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. What does that mean for us? It means if we were to create slightly different validation sets, all sampled from the same original dataset, we would get slightly different metric values. By collecting a <strong>set of these metric values</strong>, we can then estimate the metric&rsquo;s <strong>expected value</strong> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>In simple terms, the expected value is just the <strong>mean</strong> of all our observations. The more observations we have, the more precise our estimate becomes, resulting in a narrower confidence interval.</p>
+<p>As an example, let&rsquo;s consider the following.</p>
+<blockquote class="note"><p>We have five observations of a model&rsquo;s quality metric:  <code>x = [75, 72, 78, 73, 77]</code>. What is the expected value of this metric? And what is its 95% confidence interval?  For this example, let&rsquo;s assume the data has a normal distribution and a z-score of 1.96.</p></blockquote>
+<p>Mean of observations:
+$$\bar{x} = {75 + 72 + 78 + 73 + 77 \above{1pt} 5} = 75.0$$</p>
+<p>Variance:
+$$var = { (75 - 75.0)^2 + (72 - 75.0)^2 + (78 - 75.0)^2 + (73 - 75.0)^2 + (77 - 75.0)^2  \above{1pt} 5} = 5.2$$</p>
+<p>Standard deviation <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:
+$$\sigma = \sqrt {var} = \sqrt {5.2} = 2.28 $$</p>
+<p>Standard error:
+$$SE = z  {\sigma \above{1pt} \sqrt{n}} = 1.96 {2.28 \above{1pt} \sqrt{5}} = 1.99$$</p>
+<p>Confidence interval <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>:
+$$CI_x = \bar{x} \plusmn SE = 75.0 \plusmn 1.99$$</p>
+<p>For 5 observations of accuracy we have to shuffle dataset 5 times and train the model 5 times. But is it good idea to waste compute resources (especially GPU) for this kind of task? Can we use just a single observation of the quality metric to get it&rsquo;s confidence interval?</p>
+<h2 id="single-observation">Single Observation</h2>
+<p>For a single observation we have a fiew options main options, main of them are:</p>
+<ul>
+<li>Wald CI <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+<li>Wilson CI <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></li>
+</ul>
+<p>For simplicity, let&rsquo;s consider only Wald CI on the following example.</p>
+<blockquote class="note"><p>Let&rsquo;s say, we have model accyracy for binary classification task <code>x = 75%</code>, and validation dataset has 1000 samples. What is the confidence interval? Assume, data has normal distribution and $z$ score is 1.96 (95% confidence interval).</p></blockquote>
+<p>So, we have:</p>
+<ul>
+<li>Accuracy: $75 \% = 0.75$</li>
+<li>Sample size: $n = 1000$</li>
+<li>Number of correct classifications: $k = 0.75 \cdot 1000 = 750$</li>
+</ul>
+<p>We consider:</p>
+<p>$$ k ∼Binomial(n=1000,p)$$</p>
+<p>So, accuracy is:</p>
+<p>$$\hat {p} = {k \above{1pt} n}$$</p>
+<p>a random value, so that we can estimage confidence interval for $p$.</p>
+<p>Confidence interval:
+$$CI = \hat {p} \plusmn z \cdot \sqrt { { \hat {p} (1 - \hat {p}) \above{1pt} n } } $$</p>
+<ul>
+<li>$\hat p=0.75$, $n=1000$, $z=1.96$ (for confidence level 95%).</li>
+</ul>
+<p>Standard error:
+$$SE = \sqrt { { 0.75 (1 - 0.75) \above{1pt} 1000 } } = 0.0137$$</p>
+<p>So, confidence interval is:
+$$CI = 0.75 \plusmn 1.96 \cdot 0.0137 = 0.75 \plusmn 0.0268$$</p>
+<p><strong>Be careful with the statistical tests you choose</strong>. The Wald confidence interval, for example, isn&rsquo;t reliable for <strong>small sample sizes</strong> and can be misleading. It tends to shrink to a width of zero as your model&rsquo;s accuracy ($\bar {p}$​) gets very close to 1 or 0, giving a false sense of certainty.</p>
+<p>With these simple formulas in mind, we can estimate the <strong>required size of our validation dataset</strong>. This helps us achieve the level of accuracy we need in assessing our model&rsquo;s performance metric.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">Accuracy</th>
+          <th style="text-align: right">Val Dataset Size</th>
+          <th style="text-align: center">Confidence Interval</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">0.80</td>
+          <td style="text-align: right">100</td>
+          <td style="text-align: center">$0.80 \plusmn 0.08$</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">0.80</td>
+          <td style="text-align: right">200</td>
+          <td style="text-align: center">$0.80 \plusmn 0.06$</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">0.80</td>
+          <td style="text-align: right">500</td>
+          <td style="text-align: center">$0.80 \plusmn 0.04$</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">0.80</td>
+          <td style="text-align: right">1000</td>
+          <td style="text-align: center">$0.80 \plusmn 0.02$</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">0.80</td>
+          <td style="text-align: right">5000</td>
+          <td style="text-align: center">$0.80 \plusmn 0.01$</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>It&rsquo;s common for ML engineers to overlook the size of the validation dataset and its impact on a model&rsquo;s performance. This is understandable - we&rsquo;re often more into pressing tasks like data cleaning, model training, and hyperparameter tuning. In most projects, data is a limited resource, and the focus is on putting as much of it as possible into the training process.</p>
+<p>This narrow focus on training often causes us to forget about other critical stages. A complete project involves not only validation but also serving, monitoring, integration (with frontend and backend), and presenting results to stakeholders to collect feedback.</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Observation in Statistics: Simple Definition &amp; Examples: <a href="https://www.statisticshowto.com/observation-in-statistics/" target="_blank">https://www.statisticshowto.com/observation-in-statistics/</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Expected value: <a href="https://en.wikipedia.org/wiki/Expected_value" target="_blank">https://en.wikipedia.org/wiki/Expected_value</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Standard deviation: <a href="https://en.wikipedia.org/wiki/Standard_deviation" target="_blank">https://en.wikipedia.org/wiki/Standard_deviation</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Confidence Interval: Definition, Examples: <a href="https://www.statisticshowto.com/probability-and-statistics/confidence-interval/" target="_blank">https://www.statisticshowto.com/probability-and-statistics/confidence-interval/</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Wald CI: <a href="https://www.statisticshowto.com/wald-ci/" target="_blank">https://www.statisticshowto.com/wald-ci/</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Wilson CI: <a href="https://www.statisticshowto.com/wilson-ci/" target="_blank">https://www.statisticshowto.com/wilson-ci/</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
 </div>
 
+  
+  <hr>
+<div class="footer">
+    
+	    
+	    
+    
+</div>
 
-
+  
+</div>
             </main>
             
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-train-validation-split">The Train-Validation Split</a></li>
+    <li><a href="#multiple-observations">Multiple Observations</a></li>
+    <li><a href="#single-observation">Single Observation</a></li>
+    <li><a href="#final-thoughts">Final Thoughts</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
         </div>
     </body>
 </html>

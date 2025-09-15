@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/tags/datascience/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/tags/dataset/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/posts/notes-on-validation-dataset-size/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
+    <loc>/tags/validation/</loc>
+    <lastmod>2025-09-15T14:35:19+03:00</lastmod>
+  </url><url>
     <loc>/tags/python/</loc>
     <lastmod>2025-09-13T13:19:58+03:00</lastmod>
   </url><url>
@@ -9,12 +30,6 @@
     <lastmod>2025-09-13T13:19:58+03:00</lastmod>
   </url><url>
     <loc>/tags/serving/</loc>
-    <lastmod>2025-09-13T13:19:58+03:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2025-09-13T13:19:58+03:00</lastmod>
-  </url><url>
-    <loc>/</loc>
     <lastmod>2025-09-13T13:19:58+03:00</lastmod>
   </url><url>
     <loc>/series/triton/</loc>
