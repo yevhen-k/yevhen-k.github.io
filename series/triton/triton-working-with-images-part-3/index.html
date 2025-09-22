@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.7750550c0319f5de56d916b91e642bf72a5bd09ee50b201dc2ed9db69d6177a8.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Yevhen Krasnokutsky - Triton. Part 3. Dealing with Images.</title>
+<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
+<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
+<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
+<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
+<meta property="og:site_name" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="/series/triton/triton-working-with-images-part-3/" />
+<link rel="canonical" href="/series/triton/triton-working-with-images-part-3/" itemprop="url" />
+<meta name="url" content="/series/triton/triton-working-with-images-part-3/" />
+<meta name="twitter:url" content="/series/triton/triton-working-with-images-part-3/" />
+<meta property="og:url" content="/series/triton/triton-working-with-images-part-3/" />
+
+
+<meta property="og:updated_time" content="2025-09-22T11:20:03&#43;03:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.148.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.ce70613c4f2e83aa9c5d878df1c3162924a67e9d9baa8aa1ed16319871164f29.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="/">
+                <img src="/brand_image.jpg" alt="brand image">
+            </a>
+        
+        
+            <a href="/">
+                <h1>Yevhen Krasnokutsky</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    PhD <br> ML Engineer <br> Data Scientist
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                        <li class="sub-heading">
+                            Recent
+                        </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/notes-on-validation-dataset-size/">Notes on Validation Dataset Size</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/giving-odin-intelligence/">Giving Odin Intelligence</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/giving-odin-vision/">Giving Odin Vision</a>
+                            </li>
+                        
+                    
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+            
+            
+                
+                    <li class="heading">
+                        <a href="/series/">Series</a>
+                    </li>
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                    <li class="heading">
+                        <a href="/tags/">Tags</a>
+                    </li>
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+<a target="_blank" class="social" title="GitHub" href="https://github.com/yevhen-k">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+        <path fill="currentColor"
+            d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z" />
+    </svg>
+</a>
+
+
+
+<a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/yevhen-krasnokutsky/">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+        <path fill="currentColor"
+            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z" />
+    </svg>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a target="_blank" class="social" title="Email" href="mailto:yevhen.krasnokutsky@gmail.com">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+        <path fill="currentColor"
+            d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="ORCID" href="https://orcid.org/0000-0002-1351-4233">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M294.8 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm-80.8 360.8h-29.8v-207.5h29.8zm-14.9-231.1a19.6 19.6 0 1 1 19.6-19.6 19.6 19.6 0 0 1 -19.6 19.6zM300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9C410 318.4 368.4 369 300 369z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="Google Scholar" href="https://scholar.google.com/citations?user=No2aYekAAAAJ">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M390.9 298.5c0 0 0 .1 .1 .1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64h0c1.7-3.6 3.6-7.2 5.6-10.7c4.4-7.6 9.4-14.7 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3c33.6 0 64.6 11.1 89.6 29.9c9.1 6.9 17.4 14.7 24.8 23.5c5.6 6.6 10.6 13.8 15 21.3c2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0 512 202.7l-94.7 77.1z" />
+    </svg>
+</a>
+
+
+        <p class="footnote">
+    
+    &copy; 2025 The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist. All rights reserved.
+</p>
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Dealing with Images.</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-09-22T11:20:03&#43;0300" class="post-date">
+        September 22, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>8 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-triton">
+        <a href="/tags/triton">triton</a>
+      </li>
+      
+      <li class="tag-python">
+        <a href="/tags/python">python</a>
+      </li>
+      
+      <li class="tag-serving">
+        <a href="/tags/serving">serving</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+  <p class="seriesname">
+    Series: <a href="/series/triton">Triton</a>
+  </p>
+  
+
+  
+</div>
+
+  <p>In this post, we&rsquo;re going to explore how to send and receive images using Triton.</p>
+<p>In Python and deep learning, images are primarily represented in two ways:</p>
+<ul>
+<li><strong>Bytes</strong>: The raw, encoded data of an image (e.g., a <code>.jpg</code> or <code>.png</code> file).</li>
+<li><strong>Tensors</strong>: The decoded image data, often a NumPy array or an OpenCV <code>cv::Mat</code> object, where the image is a multi-dimensional array of pixel values.</li>
+</ul>
+<p>Depending on which representation you use, you&rsquo;ll need to configure your Triton server and client differently.</p>
+<p>To represent an image as bytes and wrap it into a NumPy array, you can use the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> Path<span style="color:#f92672">.</span>open(Path(<span style="color:#e6db74">&#34;assets/bus.jpg&#34;</span>), <span style="color:#e6db74">&#34;rb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>frombuffer(data, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span></code></pre></div><p>To represent an image as tensor, you can use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imread(<span style="color:#e6db74">&#34;assets/bus.jpg&#34;</span>)
+</span></span></code></pre></div><h2 id="what-do-we-need-to-process-images">What do We Need to Process Images?</h2>
+<p>To process images in Python, we typically rely on libraries like <strong>OpenCV</strong>, <strong>Pillow</strong>, and <strong>Scikit-Image</strong>. However, none of these libraries are included in the official Triton server Docker image. If you run the command below, you&rsquo;ll see a list of the pre-installed packages, none of which are for image processing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run nvcr.io/nvidia/tritonserver:24.08-py3 pip3 freeze
+</span></span></code></pre></div><h3 id="preparation">Preparation</h3>
+<p>Since the official Triton Docker image doesn&rsquo;t include image processing libraries, we need to extend it. To do this, we&rsquo;ll create a <code>Dockerfile</code> and a <code>requirements.txt</code> file.</p>
+<p><code>Dockerfile</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> nvcr.io/nvidia/tritonserver:24.08-py3</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /requirements-dir</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> DEBIAN_FRONTEND<span style="color:#f92672">=</span>noninteractive
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> PYTHONUNBUFFERED<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> apt-get update -y <span style="color:#f92672">&amp;&amp;</span> apt-get install ffmpeg libsm6 libxext6 -y<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> ./requirements.txt requirements.txt<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache python3 -m pip install -r requirements.txt<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;bash&#34;</span>] <span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p><code>requirements.txt</code> file:</p>
+<pre tabindex="0"><code class="language-requirements" data-lang="requirements">rfdetr @ git+https://github.com/roboflow/rf-detr.git
+torch==2.5.1
+torchvision==0.20.1
+opencv-python==4.10.0.84
+</code></pre><p>We&rsquo;ll install <code>rfdetr</code>, <code>torch</code>, and <code>torchvision</code> for future use, but for now, we only need the <code>opencv-python</code> package.</p>
+<p>To build your docker image, use the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>REPO_ID<span style="color:#f92672">=</span>YOUR_DOCKERHUB_REPO_ID
+</span></span><span style="display:flex;"><span>IMAGE_NAME<span style="color:#f92672">=</span>triton-pytorch-rfdetr
+</span></span><span style="display:flex;"><span>docker build --rm -t <span style="color:#e6db74">${</span>IMAGE_NAME<span style="color:#e6db74">}</span> .
+</span></span><span style="display:flex;"><span>docker tag <span style="color:#e6db74">${</span>IMAGE_NAME<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>REPO_ID<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>IMAGE_NAME<span style="color:#e6db74">}</span>:24.08-py3
+</span></span><span style="display:flex;"><span>docker push <span style="color:#e6db74">${</span>REPO_ID<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>IMAGE_NAME<span style="color:#e6db74">}</span>:24.08-py3
+</span></span></code></pre></div><p>If you prefer to build the image yourself without publishing it, use the <code>docker build</code> and <code>docker tag</code> commands. Alternatively, you can use the pre-built image <code>yevhenk10s/triton-pytorch-rfdetr:24.08-py3</code>, which already has all the necessary packages for this project.</p>
+<blockquote class="warning"><p><strong>A word of caution</strong>: It&rsquo;s always a good idea to be skeptical of random Docker images you find online. For a production environment, you should always build your own images from a trusted source.
+In simple words, do not trust random Docker images!</p></blockquote>
+<h2 id="echo-image-example">Echo Image Example</h2>
+<p>In this example, we&rsquo;ll send an image as a byte array to the Triton server and get those same bytes back, unchanged.</p>
+<p>We already know how to pass bytes to Triton from our <a href=/series/triton/triton-echo-json-part-2/>Echo JSON</a> post. We&rsquo;ll use the same trick here with images:</p>
+<ul>
+<li>First, we&rsquo;ll convert the image object into a byte array.</li>
+<li>Next, we&rsquo;ll wrap those bytes into a NumPy array.</li>
+<li>Finally, we&rsquo;ll pass that NumPy array to the Triton client.</li>
+</ul>
+<h3 id="the-client-side">The Client Side</h3>
+<p>On the client side, we&rsquo;ll read an image as a byte array, send it to the Triton server, and expect the exact same byte array to be returned.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># client-echo-image.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.grpc <span style="color:#66d9ef">as</span> grpcclient
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.utils <span style="color:#66d9ef">as</span> utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 00 Read image bytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> Path<span style="color:#f92672">.</span>open(Path(<span style="color:#e6db74">&#34;assets/bus.jpg&#34;</span>), <span style="color:#e6db74">&#34;rb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>frombuffer(data, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 01 Make a client</span>
+</span></span><span style="display:flex;"><span>grpc_client <span style="color:#f92672">=</span> grpcclient<span style="color:#f92672">.</span>InferenceServerClient(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost:8001&#34;</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>model_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;echo-image&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 02 Prepare inputs/outputs </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Here we assume that model input name for the image is &#34;in:jpg&#34;</span>
+</span></span><span style="display:flex;"><span>inputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferInput(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;in:jpg&#34;</span>, np_data<span style="color:#f92672">.</span>shape, utils<span style="color:#f92672">.</span>np_to_triton_dtype(np_data<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_data_from_numpy(np_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Here we assume that model output name is &#34;out:jpg&#34;</span>
+</span></span><span style="display:flex;"><span>outputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferRequestedOutput(<span style="color:#e6db74">&#34;out:jpg&#34;</span>),
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 03 Make actual request</span>
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> grpc_client<span style="color:#f92672">.</span>infer(model_name, inputs, outputs<span style="color:#f92672">=</span>outputs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 04 Convert Trinton response to NumPy array back</span>
+</span></span><span style="display:flex;"><span>image <span style="color:#f92672">=</span> results<span style="color:#f92672">.</span>as_numpy(<span style="color:#e6db74">&#34;out:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 05 Now we have our image back</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Here we can do whatever we want with the image</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> Path<span style="color:#f92672">.</span>open(Path(<span style="color:#e6db74">&#34;sample.jpg&#34;</span>), <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>write(image<span style="color:#f92672">.</span>tobytes())
+</span></span></code></pre></div><blockquote class="note"><p><code>image</code> is a NumPy array containing bytes of encoded JPG image.
+This means we&rsquo;re sending and receiving the raw bytes of the image file, not the decoded pixel data.</p></blockquote>
+<h3 id="the-configpbtxt-file">The <code>config.pbtxt</code> File</h3>
+<p>We&rsquo;ve already established the model name and the input/output tensor names on the client side. Now, in the <code>config.pbtxt</code> file, we&rsquo;ll configure these exact same parameters.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;echo-image&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>max_batch_size<span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>backend<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;python&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>input [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;in:jpg&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>output [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;out:jpg&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>instance_group [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        kind<span style="color:#f92672">:</span> KIND_CPU<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>This process should feel familiar, as it&rsquo;s no different from what we did in the <a href=/series/triton/triton-echo-json-part-2/>echo json</a> example.</p>
+<h3 id="the-modelpy-file">The <code>model.py</code> File</h3>
+<p>On the client side, we send the raw bytes of a JPG image. So, within the model&rsquo;s <code>execute()</code> method, you&rsquo;ll need to use <code>cv2.imdecode()</code> to convert those bytes into a usable format, like a NumPy array.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>input_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_tensor_by_name(request, <span style="color:#e6db74">&#34;in:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>input_arr: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> input_tensor<span style="color:#f92672">.</span>as_numpy()
+</span></span><span style="display:flex;"><span>image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imdecode(input_arr, cv2<span style="color:#f92672">.</span>IMREAD_UNCHANGED)
+</span></span></code></pre></div><p>Now you can process the <code>image</code> array as you normally would. Once you&rsquo;re done, you need to encode the NumPy array back into a JPG byte buffer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ret, buf <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imencode(<span style="color:#e6db74">&#34;image.jpg&#34;</span>, image)
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>frombuffer(buf, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>out_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>Tensor(<span style="color:#e6db74">&#34;out:jpg&#34;</span>, np_data<span style="color:#f92672">.</span>astype(self<span style="color:#f92672">.</span>output_dtype))
+</span></span></code></pre></div><p>With the byte buffer ready, you can now create the response object.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>inference_response <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>InferenceResponse(output_tensors<span style="color:#f92672">=</span>[out_tensor])
+</span></span><span style="display:flex;"><span>responses<span style="color:#f92672">.</span>append(inference_response)
+</span></span></code></pre></div><p>For the complete code of the <code>echo-image</code> example, you can visit my GitHub repository at <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a>. Check the following files and directories:</p>
+<ul>
+<li><code>client-echo-image.py</code></li>
+<li><code>models/echo-image</code></li>
+</ul>
+<blockquote class="note"><p>Note: in this example we decode and encode image on the model side.</p></blockquote>
+<h2 id="process-image-example">Process Image Example</h2>
+<p>In this example, we&rsquo;ll send an image as bytes, just like before, but this time we&rsquo;ll receive a <strong>resized image</strong> back in the form of a tensor. The image will be resized to a shape of <code>[512, 512, 3]</code>. This shows how you can use the Triton server for more than just model serving. It&rsquo;s a great tool for any necessary <strong>data manipulation</strong>, including preprocessing, post-processing, and even data augmentation.</p>
+<h3 id="the-client-side-1">The Client Side</h3>
+<p>On the client side, the process is familiar. We&rsquo;ll read the image, turn its bytes into a tensor, and send it to the Triton server. The only new step is that after receiving the processed image back, we must <strong>reshape</strong> it to the correct dimensions.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># client-process-image.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.grpc <span style="color:#66d9ef">as</span> grpcclient
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.utils <span style="color:#66d9ef">as</span> utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 00 Read image bytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> Path<span style="color:#f92672">.</span>open(Path(<span style="color:#e6db74">&#34;assets/bus.jpg&#34;</span>), <span style="color:#e6db74">&#34;rb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>np_data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>frombuffer(data, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 01 Make a client</span>
+</span></span><span style="display:flex;"><span>grpc_client <span style="color:#f92672">=</span> grpcclient<span style="color:#f92672">.</span>InferenceServerClient(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost:8001&#34;</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>model_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;process-image&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 02 Prepare inputs/outputs </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Here we assume that model input name for the image is &#34;in:jpg&#34;</span>
+</span></span><span style="display:flex;"><span>inputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferInput(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;in:jpg&#34;</span>, np_data<span style="color:#f92672">.</span>shape, utils<span style="color:#f92672">.</span>np_to_triton_dtype(np_data<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_data_from_numpy(np_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Here we assume that model output name is &#34;out:tensor&#34;</span>
+</span></span><span style="display:flex;"><span>outputs <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    grpcclient<span style="color:#f92672">.</span>InferRequestedOutput(<span style="color:#e6db74">&#34;out:tensor&#34;</span>),
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 03 Make actual request</span>
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> grpc_client<span style="color:#f92672">.</span>infer(model_name, inputs, outputs<span style="color:#f92672">=</span>outputs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 04 Convert Trinton response to NumPy array back</span>
+</span></span><span style="display:flex;"><span>image <span style="color:#f92672">=</span> results<span style="color:#f92672">.</span>as_numpy(<span style="color:#e6db74">&#34;out:tensor&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 05 Reshape image array</span>
+</span></span><span style="display:flex;"><span>response_shape <span style="color:#f92672">=</span> [<span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>reshape(image, shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 06 Now we can do with response</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># whatever we want:</span>
+</span></span><span style="display:flex;"><span>ok <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;sample.jpg&#34;</span>, image)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> ok
+</span></span></code></pre></div><h3 id="the-configpbtxt-file-1">The <code>config.pbtxt</code> File</h3>
+<p>Based on the model name, tensor names, and dimensions we can make a <code>config.pbtxt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;process-image&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>max_batch_size<span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>backend<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;python&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>input [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;in:jpg&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>output [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;out:tensor&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [<span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">3</span>]  <span style="color:#960050;background-color:#1e0010">#</span> row, col, chan<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>instance_group [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        kind<span style="color:#f92672">:</span> KIND_CPU<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="the-modelpy-file-1">The <code>model.py</code> File</h3>
+<p>We&rsquo;ve already set the desired dimensions in the <code>config.pbtxt</code> file, but how do we access those values within our Python model?</p>
+<p>The key is to access the model configuration from the <code>initialize()</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TritonPythonModel</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(self, args: Dict[str, str]) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model_config <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(args[<span style="color:#e6db74">&#34;model_config&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        input_config <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_config_by_name(self<span style="color:#f92672">.</span>model_config, <span style="color:#e6db74">&#34;in:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>input_dtype <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>triton_string_to_numpy(input_config[<span style="color:#e6db74">&#34;data_type&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        output_config <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_output_config_by_name(
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>model_config, <span style="color:#e6db74">&#34;out:tensor&#34;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output_dtype <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>triton_string_to_numpy(output_config[<span style="color:#e6db74">&#34;data_type&#34;</span>])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">=</span> output_config[<span style="color:#e6db74">&#34;dims&#34;</span>]
+</span></span></code></pre></div><p>Now, <code>self.output_shape</code> holds the target shape for our image. We can use this variable directly in our <code>execute()</code> function to resize the image.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Get input tensor by name and decode it to the NumPy array:</span>
+</span></span><span style="display:flex;"><span>input_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_tensor_by_name(request, <span style="color:#e6db74">&#34;in:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>input_arr: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> input_tensor<span style="color:#f92672">.</span>as_numpy()
+</span></span><span style="display:flex;"><span>image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imdecode(input_arr, cv2<span style="color:#f92672">.</span>IMREAD_UNCHANGED)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Process image to the target shape:</span>
+</span></span><span style="display:flex;"><span>resized_image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>resize(
+</span></span><span style="display:flex;"><span>    image, (self<span style="color:#f92672">.</span>output_shape[<span style="color:#ae81ff">1</span>], self<span style="color:#f92672">.</span>output_shape[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prepare output</span>
+</span></span><span style="display:flex;"><span>outputs <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>frombuffer(resized_image<span style="color:#f92672">.</span>tobytes(), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>uint8)
+</span></span><span style="display:flex;"><span>out_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>Tensor(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;out:tensor&#34;</span>, outputs<span style="color:#f92672">.</span>astype(self<span style="color:#f92672">.</span>output_dtype)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>inference_response <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>InferenceResponse(output_tensors<span style="color:#f92672">=</span>[out_tensor])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>responses<span style="color:#f92672">.</span>append(inference_response)
+</span></span></code></pre></div><p>For full code of the <code>process-image</code> example, visit <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check the following files and directories:</p>
+<ul>
+<li><code>client-process-image.py</code></li>
+<li><code>models/process-image</code></li>
+</ul>
+<blockquote class="note"><p>Note: in this example we decode image on the model side. No encoding back to image is necessary in this example.</p></blockquote>
+<h2 id="home-assignment">Home Assignment</h2>
+<p>Here are some challenges to help you practice what you&rsquo;ve learned:</p>
+<ol>
+<li><strong>Send an image as a tensor</strong> to the Triton server instead of a byte array.</li>
+<li>Consider the best way to <strong>split image decoding and encoding</strong> between the client and server. What factors should you think about?
+<ol>
+<li><strong>Access to specialized hardware</strong>: Is it better to decode on the client if it has a GPU, or on the server where the model is?</li>
+<li><strong>Network bandwidth</strong>: Is it more efficient to send a smaller, compressed image (as bytes) or a larger, uncompressed tensor?</li>
+</ol>
+</li>
+<li>Instead of hardcoding the target image size in the <code>config.pbtxt</code> file, try <strong>sending the target size in a JSON</strong> to the model.</li>
+</ol>
+<h2 id="wrapping-it-up">Wrapping It Up</h2>
+<p>We made great progress today learning how to send and receive images with Triton. We saw that <strong>NumPy</strong> acts as a container for image bytes, while <strong>OpenCV</strong> is used to decode and encode the images.</p>
+<p>A key takeaway is that to process images on the server, you need to <strong>install the necessary dependencies</strong> directly into your Triton Docker image.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+    
+    
+    <p>
+    This is a post in the <b><a href="/series/triton">Triton</a></b> series.
+        <br>Other posts in this series:
+        <ul class="series">
+            
+            
+            
+            <li>
+                September 22, 2025 -
+                
+                    Triton. Part 3. Dealing with Images.
+                
+            </li>
+            
+            <li>
+                September 13, 2025 -
+                
+                    <a href="/series/triton/triton-echo-json-part-2/">Triton. Part 2. Echo Json.</a>
+                
+            </li>
+            
+            <li>
+                September 9, 2025 -
+                
+                    <a href="/series/triton/triton-echo-tensor-part-1/">Triton. Part 1. Echo Tensor</a>
+                
+            </li>
+            
+            <li>
+                September 9, 2025 -
+                
+                    <a href="/series/triton/triton-intro/">Triton Intro</a>
+                
+            </li>
+            
+        </ul>
+    </p>
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-do-we-need-to-process-images">What do We Need to Process Images?</a>
+      <ul>
+        <li><a href="#preparation">Preparation</a></li>
+      </ul>
+    </li>
+    <li><a href="#echo-image-example">Echo Image Example</a>
+      <ul>
+        <li><a href="#the-client-side">The Client Side</a></li>
+        <li><a href="#the-configpbtxt-file">The <code>config.pbtxt</code> File</a></li>
+        <li><a href="#the-modelpy-file">The <code>model.py</code> File</a></li>
+      </ul>
+    </li>
+    <li><a href="#process-image-example">Process Image Example</a>
+      <ul>
+        <li><a href="#the-client-side-1">The Client Side</a></li>
+        <li><a href="#the-configpbtxt-file-1">The <code>config.pbtxt</code> File</a></li>
+        <li><a href="#the-modelpy-file-1">The <code>model.py</code> File</a></li>
+      </ul>
+    </li>
+    <li><a href="#home-assignment">Home Assignment</a></li>
+    <li><a href="#wrapping-it-up">Wrapping It Up</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
+        </div>
+    </body>
+</html>

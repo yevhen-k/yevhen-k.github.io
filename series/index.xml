@@ -6,20 +6,13 @@
     <description>Recent content in Series on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Sep 2025 13:19:58 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 22 Sep 2025 11:20:03 +0300</lastBuildDate>
     <atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Triton</title>
       <link>/series/triton/</link>
-      <pubDate>Sat, 13 Sep 2025 13:19:58 +0300</pubDate>
+      <pubDate>Mon, 22 Sep 2025 11:20:03 +0300</pubDate>
       <guid>/series/triton/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Odin</title>
-      <link>/series/odin/</link>
-      <pubDate>Mon, 08 Sep 2025 18:15:24 +0300</pubDate>
-      <guid>/series/odin/</guid>
       <description></description>
     </item>
   </channel>

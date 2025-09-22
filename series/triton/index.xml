@@ -6,17 +6,24 @@
     <description>Recent content in Triton on The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Sep 2025 13:19:58 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 22 Sep 2025 11:20:03 +0300</lastBuildDate>
     <atom:link href="/series/triton/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Triton. Echo Json. Part 2</title>
+      <title>Triton. Part 3. Dealing with Images.</title>
+      <link>/series/triton/triton-working-with-images-part-3/</link>
+      <pubDate>Mon, 22 Sep 2025 11:20:03 +0300</pubDate>
+      <guid>/series/triton/triton-working-with-images-part-3/</guid>
+      <description>&lt;p&gt;In this post, we&amp;rsquo;re going to explore how to send and receive images using Triton.&lt;/p&gt;&#xA;&lt;p&gt;In Python and deep learning, images are primarily represented in two ways:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Bytes&lt;/strong&gt;: The raw, encoded data of an image (e.g., a &lt;code&gt;.jpg&lt;/code&gt; or &lt;code&gt;.png&lt;/code&gt; file).&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Tensors&lt;/strong&gt;: The decoded image data, often a NumPy array or an OpenCV &lt;code&gt;cv::Mat&lt;/code&gt; object, where the image is a multi-dimensional array of pixel values.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Depending on which representation you use, you&amp;rsquo;ll need to configure your Triton server and client differently.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Triton. Part 2. Echo Json.</title>
       <link>/series/triton/triton-echo-json-part-2/</link>
       <pubDate>Sat, 13 Sep 2025 13:19:58 +0300</pubDate>
       <guid>/series/triton/triton-echo-json-part-2/</guid>
       <description>&lt;h2 id=&#34;is-triton-just-for-tensors&#34;&gt;Is Triton Just for Tensors?&lt;/h2&gt;&#xA;&lt;p&gt;In our last post, we made some great progress, learning how to set up and run a simple Triton server to pass a tensor back and forth. But what if a tensor isn&amp;rsquo;t enough?&lt;/p&gt;&#xA;&lt;p&gt;As ML engineers, we often need to send more than just numerical arrays. We might want to send &lt;strong&gt;images&lt;/strong&gt;, &lt;strong&gt;JSON objects&lt;/strong&gt;, or &lt;strong&gt;audio files&lt;/strong&gt; to our models. This brings up a big question: if Triton only deals in tensors, how do we handle all this other data?&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Triton. Echo Tensor. Part 1</title>
+      <title>Triton. Part 1. Echo Tensor</title>
       <link>/series/triton/triton-echo-tensor-part-1/</link>
       <pubDate>Tue, 09 Sep 2025 20:24:22 +0300</pubDate>
       <guid>/series/triton/triton-echo-tensor-part-1/</guid>
