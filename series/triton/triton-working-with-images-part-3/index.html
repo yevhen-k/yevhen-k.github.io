@@ -664,6 +664,12 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
 </span></span></code></pre></div><p>With the byte buffer ready, you can now create the response object.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>inference_response <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>InferenceResponse(output_tensors<span style="color:#f92672">=</span>[out_tensor])
 </span></span><span style="display:flex;"><span>responses<span style="color:#f92672">.</span>append(inference_response)
+</span></span></code></pre></div><h3 id="running-the-model">Running The Model</h3>
+<p>Start the Triton server:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --gpus<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --rm --net<span style="color:#f92672">=</span>host -v <span style="color:#e6db74">${</span>PWD<span style="color:#e6db74">}</span>/models:/models yevhenk10s/triton-pytorch-rfdetr:24.08-py3 tritonserver --model-repository<span style="color:#f92672">=</span>/models
+</span></span></code></pre></div><p>Here we use custom Docker image we&rsquo;ve made earlier to start the server.</p>
+<p>Wait for a bit for Triton to start the model, and then make a request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python client-echo-image.py
 </span></span></code></pre></div><p>For the complete code of the <code>echo-image</code> example, you can visit my GitHub repository at <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a>. Check the following files and directories:</p>
 <ul>
 <li><code>client-echo-image.py</code></li>
@@ -780,6 +786,12 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
 </span></span><span style="display:flex;"><span>inference_response <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>InferenceResponse(output_tensors<span style="color:#f92672">=</span>[out_tensor])
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>responses<span style="color:#f92672">.</span>append(inference_response)
+</span></span></code></pre></div><h3 id="running-the-model-1">Running The Model</h3>
+<p>Start the Triton server:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --gpus<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --rm --net<span style="color:#f92672">=</span>host -v <span style="color:#e6db74">${</span>PWD<span style="color:#e6db74">}</span>/models:/models yevhenk10s/triton-pytorch-rfdetr:24.08-py3 tritonserver --model-repository<span style="color:#f92672">=</span>/models
+</span></span></code></pre></div><p>Here we use custom Docker image we&rsquo;ve made earlier to start the server.</p>
+<p>Wait for a bit for Triton to start the model, and then make a request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python client-process-image.py
 </span></span></code></pre></div><p>For full code of the <code>process-image</code> example, visit <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check the following files and directories:</p>
 <ul>
 <li><code>client-process-image.py</code></li>
@@ -868,6 +880,7 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
         <li><a href="#the-client-side">The Client Side</a></li>
         <li><a href="#the-configpbtxt-file">The <code>config.pbtxt</code> File</a></li>
         <li><a href="#the-modelpy-file">The <code>model.py</code> File</a></li>
+        <li><a href="#running-the-model">Running The Model</a></li>
       </ul>
     </li>
     <li><a href="#process-image-example">Process Image Example</a>
@@ -875,6 +888,7 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
         <li><a href="#the-client-side-1">The Client Side</a></li>
         <li><a href="#the-configpbtxt-file-1">The <code>config.pbtxt</code> File</a></li>
         <li><a href="#the-modelpy-file-1">The <code>model.py</code> File</a></li>
+        <li><a href="#running-the-model-1">Running The Model</a></li>
       </ul>
     </li>
     <li><a href="#home-assignment">Home Assignment</a></li>
