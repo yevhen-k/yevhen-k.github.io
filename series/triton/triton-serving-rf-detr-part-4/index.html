@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Yevhen Krasnokutsky - Triton. Part 4. Serving RF-DETR</title>
+<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;4.&#32;Serving&#32;RF-DETR />
+<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;4.&#32;Serving&#32;RF-DETR />
+<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;4.&#32;Serving&#32;RF-DETR />
+<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;4.&#32;Serving&#32;RF-DETR />
+<meta property="og:site_name" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="/series/triton/triton-serving-rf-detr-part-4/" />
+<link rel="canonical" href="/series/triton/triton-serving-rf-detr-part-4/" itemprop="url" />
+<meta name="url" content="/series/triton/triton-serving-rf-detr-part-4/" />
+<meta name="twitter:url" content="/series/triton/triton-serving-rf-detr-part-4/" />
+<meta property="og:url" content="/series/triton/triton-serving-rf-detr-part-4/" />
+
+
+<meta property="og:updated_time" content="2025-10-12T13:40:00&#43;03:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.150.0">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.a3876437c8150d2786a27bbd2ff089ec2e7b06c85d0c8611cb20d3c10eeb81bc.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="/">
+                <img src="/brand_image.jpg" alt="brand image">
+            </a>
+        
+        
+            <a href="/">
+                <h1>Yevhen Krasnokutsky</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    PhD <br> ML Engineer <br> Data Scientist
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                        <li class="sub-heading">
+                            Recent
+                        </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/notes-on-validation-dataset-size/">Notes on Validation Dataset Size</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/giving-odin-intelligence/">Giving Odin Intelligence</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="/posts/giving-odin-vision/">Giving Odin Vision</a>
+                            </li>
+                        
+                    
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+            
+            
+                
+                    <li class="heading">
+                        <a href="/series/">Series</a>
+                    </li>
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                    <li class="heading">
+                        <a href="/tags/">Tags</a>
+                    </li>
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+<a target="_blank" class="social" title="GitHub" href="https://github.com/yevhen-k">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+        <path fill="currentColor"
+            d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z" />
+    </svg>
+</a>
+
+
+
+<a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/yevhen-krasnokutsky/">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+        <path fill="currentColor"
+            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z" />
+    </svg>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a target="_blank" class="social" title="Email" href="mailto:yevhen.krasnokutsky@gmail.com">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+        <path fill="currentColor"
+            d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="ORCID" href="https://orcid.org/0000-0002-1351-4233">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M294.8 188.2h-45.9V342h47.5c67.6 0 83.1-51.3 83.1-76.9 0-41.6-26.5-76.9-84.7-76.9zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm-80.8 360.8h-29.8v-207.5h29.8zm-14.9-231.1a19.6 19.6 0 1 1 19.6-19.6 19.6 19.6 0 0 1 -19.6 19.6zM300 369h-81V161.3h80.6c76.7 0 110.4 54.8 110.4 103.9C410 318.4 368.4 369 300 369z" />
+    </svg>
+</a>
+
+
+<a target="_blank" class="social" title="Google Scholar" href="https://scholar.google.com/citations?user=No2aYekAAAAJ">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 512 512">
+        <path fill="currentColor"
+            d="M390.9 298.5c0 0 0 .1 .1 .1c9.2 19.4 14.4 41.1 14.4 64C405.3 445.1 338.5 512 256 512s-149.3-66.9-149.3-149.3c0-22.9 5.2-44.6 14.4-64h0c1.7-3.6 3.6-7.2 5.6-10.7c4.4-7.6 9.4-14.7 15-21.3c27.4-32.6 68.5-53.3 114.4-53.3c33.6 0 64.6 11.1 89.6 29.9c9.1 6.9 17.4 14.7 24.8 23.5c5.6 6.6 10.6 13.8 15 21.3c2 3.4 3.8 7 5.5 10.5zm26.4-18.8c-30.1-58.4-91-98.4-161.3-98.4s-131.2 40-161.3 98.4L0 202.7 256 0 512 202.7l-94.7 77.1z" />
+    </svg>
+</a>
+
+
+        <p class="footnote">
+    
+    &copy; 2025 The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist. All rights reserved.
+</p>
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="/series/triton/triton-serving-rf-detr-part-4/">Triton. Part 4. Serving RF-DETR</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-10-12T13:40:00&#43;0300" class="post-date">
+        October 12, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>8 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-triton">
+        <a href="/tags/triton">triton</a>
+      </li>
+      
+      <li class="tag-python">
+        <a href="/tags/python">python</a>
+      </li>
+      
+      <li class="tag-serving">
+        <a href="/tags/serving">serving</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+  <p class="seriesname">
+    Series: <a href="/series/triton">Triton</a>
+  </p>
+  
+
+  
+</div>
+
+  <h2 id="tldr-give-me-the-code">TL;DR: Give Me The Code</h2>
+<p>If you just want to see the code we discuss today, head over to my GitHub repository at <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check out these files::</p>
+<ul>
+<li><code>client-rfdetr-pytorch.py</code></li>
+<li><code>client-rfdetr-pytorch-async.py</code></li>
+<li><code>models/rfdetr-pytorch/</code></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>Today, we&rsquo;re taking a deep dive into several powerful Triton features:</p>
+<ol>
+<li>Serving on GPU</li>
+<li>Model Versioning</li>
+<li>Batching</li>
+<li>Asynchronous Serving</li>
+<li>Passing Custom Parameters</li>
+</ol>
+<p>By now, you already have a solid foundation: you know how to send and receive custom data, configure the server using <code>config.pbtxt</code>, start Triton with custom Python logic, and manage data flow.</p>
+<p>Prerequesites:</p>
+<ul>
+<li>Be familiar with the <strong>RF-DETR</strong> model and how to run it <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</li>
+<li>Have <strong>RF-DETR installed</strong> in your Docker image (we covered how to build this image in the previous <a href=/series/triton/triton-working-with-images-part-3/#preparation>post</a>).</li>
+<li>Be familiar with <strong>asynchronous</strong> programming in Python <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</li>
+<li>Have access to a suitable <strong>NVIDIA GPU</strong> for model acceleration.</li>
+</ul>
+<h3 id="our-plan-for-today">Our Plan for Today</h3>
+<p>We&rsquo;re going to build a complete inference pipeline:</p>
+<ol>
+<li><strong>Send image</strong> to the Triton server</li>
+<li><strong>Run inference</strong> on the image using RF-DETR to detect bounding boxes for specific classes.</li>
+<li><strong>Return a JSON</strong> object containing the detection response to the client.</li>
+</ol>
+<h2 id="model-directory-internals">Model Directory Internals</h2>
+<p>Let&rsquo;s take a look inside our model&rsquo;s directory. Here is the structure:</p>
+<pre tabindex="0"><code>models
+└── rfdetr-pytorch
+    ├── 1
+    │   └── model.py
+    ├── 2
+    │   └── model.py
+    ├── config.pbtxt
+    └── rf-detr-medium.pth
+</code></pre><p>You&rsquo;ll notice two key differences here compared to what we&rsquo;ve covered so far:</p>
+<ol>
+<li>The model&rsquo;s weights file (<code>rf-detr-medium.pth</code>) is located right next to the <code>config.pbtxt</code> file.</li>
+<li>There are two separate folders, <code>1</code> and <code>2</code>, each named after a model version number.</li>
+</ol>
+<h3 id="sync-and-async-model-serving">Sync and Async Model Serving</h3>
+<p>You&rsquo;ll notice we have two <code>model.py</code> versions. The only real difference between them is that the first is set up for <strong>synchronous (sync) serving</strong> and the second for <strong>asynchronous (async) serving</strong>.</p>
+<p>To configure your Triton model to run in async mode, all you need to do is add the async keyword to the execute() function signature:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(
+</span></span><span style="display:flex;"><span>        self, requests: <span style="color:#e6db74">&#34;List[pb_utils.InferenceRequest]&#34;</span>
+</span></span><span style="display:flex;"><span>    ) <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;List[pb_utils.InferenceResponse]&#34;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>It&rsquo;s that simple! The difference between the two model versions is just that single keyword. Everything else remains identical.</p>
+<h3 id="how-does-configpbtxt-manage-model-versions">How Does <code>config.pbtxt</code> Manage Model Versions?</h3>
+<p>To handle the different versions of your model, the Triton server relies on the <code>version_policy</code> setting within the <code>config.pbtxt</code> file  <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>:</p>
+<ul>
+<li><em>All</em>: All versions of the model that are available in the model repository are available for inferencing. <code>version_policy: { all: {}}</code></li>
+<li><em>Latest</em>: Only the latest ‘n’ versions of the model in the repository are available for inferencing. The latest versions of the model are the numerically greatest version numbers. version_policy: <code>{ latest: { num_versions: 2}}</code></li>
+<li><em>Specific</em>: Only the specifically listed versions of the model are available for inferencing. <code>version_policy: { specific: { versions: [1,3]}}</code></li>
+</ul>
+<p>For our simple setup, we&rsquo;re using the <code>version_policy: { all: {}}</code> setting. This tells Triton to load and serve all versions of the model that it finds in the directory (in our case, versions <code>1</code> and <code>2</code>).</p>
+<h3 id="how-to-configure-configpbtxt-to-serve-models-on-gpu">How to Configure <code>config.pbtxt</code> to Serve Models on GPU?</h3>
+<p>To set up Triton to use GPU we use the following settings in the <code>config.pbtxt</code>file <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>instance_group [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        kind<span style="color:#f92672">:</span> KIND_GPU<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        count<span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="how-to-configure-configpbtxt-for-batch-inference">How to Configure <code>config.pbtxt</code> for Batch Inference?</h3>
+<p>Triton offers different batching mechanisms for various use cases <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>. For our <strong>stateless</strong> RF-DETR model, <strong>dynamic batching</strong> is the perfect fit.</p>
+<p>The great thing is that <strong>Triton Server handles the batch allocation</strong>, not you. To create a batch, the server collects several individual requests and combines them into a single batch. Since requests don&rsquo;t arrive simultaneously, it takes a short time for the server to collect enough requests to form an efficient batch.</p>
+<p>Let&rsquo;s configure Triton to use a maximum batch size of 32, with preferred sizes of 8 and 16, and set the maximum delay for collecting requests to 5,000 microseconds (5 milliseconds).</p>
+<p>In the <code>config.pbtxt</code>, this configuration looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>max_batch_size<span style="color:#f92672">:</span> <span style="color:#ae81ff">32</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>dynamic_batching {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    preferred_batch_size<span style="color:#f92672">:</span> [<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">16</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    max_queue_delay_microseconds<span style="color:#f92672">:</span> <span style="color:#ae81ff">5000</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h3 id="inputs-and-outputs">Inputs and Outputs</h3>
+<p>As we mentioned, we&rsquo;re going to send an image to the server and receive a JSON with the object detections as the response.</p>
+<p>Since we are using <strong>batching</strong> and the tensor size of the raw image bytes isn&rsquo;t fixed, the inputs and outputs in our <code>config.pbtxt</code> will look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>input [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;in:jpg&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>output [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        name<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;detections:json&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        data_type<span style="color:#f92672">:</span> TYPE_UINT8<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>        dims<span style="color:#f92672">:</span> [ <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Notice the <code>-1</code> <strong>dimension</strong> in the output. This is a crucial detail when using batching, as it indicates that for a batched input, we must prepare a batched output. The first dimension of <code>-1</code> is Triton&rsquo;s way of saying, &ldquo;The output will have a variable batch size.&rdquo;</p>
+<h3 id="passing-custom-parameters-to-the-configpbtxt">Passing Custom Parameters to the <code>config.pbtxt</code></h3>
+<p><strong>Parameters</strong> are configuration values you want to pass directly to your <code>model.py</code> file. It&rsquo;s easiest to understand this with a real-world example.</p>
+<p>In our RF-DETR case, we need to filter the model&rsquo;s predictions based on a class list and a confidence threshold. Let&rsquo;s say we only want to detect <code>person</code> and <code>car</code> classes with a threshold of <code>0.3</code>.</p>
+<p>We have a few ways to handle this configuration, but not all of them are ideal:</p>
+<ul>
+<li><strong>Send a Config with the Image</strong>: You could send a JSON config along with the image. However, this means both the client and server must agree on a custom JSON structure.</li>
+<li><strong>Filter on the Client Side</strong>: The client could filter the model&rsquo;s raw response, but this forces the client to know too much about the server&rsquo;s internal logic and thresholds.</li>
+<li><strong>Hardcode in</strong> <code>model.py</code>: This works, but it&rsquo;s poor practice for managing multiple model versions. You&rsquo;d have to copy and paste configuration settings every time you update the code.</li>
+<li><strong>Configure via</strong> <code>config.pbtxt</code>: This is the best solution. It centralizes all necessary settings in the model&rsquo;s configuration file, separating logic from deployment settings.</li>
+</ul>
+<p>Here is how you pass these custom parameters in the <code>config.pbtxt</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span>parameters [<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    key<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;threshold&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    value<span style="color:#f92672">:</span> { string_value<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;0.3&#34;</span> }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  },<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    key<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;class_ids&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    value<span style="color:#f92672">:</span> { string_value<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;1, 3&#34;</span> }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>  }<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>It&rsquo;s a bit frustrating, but there isn&rsquo;t great documentation on how to define these parameters directly in the <code>config.pbtxt</code> file. The only way I was able to figure out this feature was by digging through the source code of the <code>triton-inference-server/common/protobuf/model_config.proto</code> file <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+<h3 id="modelpy"><code>model.py</code></h3>
+<h4 id="reading-model-weights-and-config">Reading Model Weights and Config</h4>
+<p>To initialize RF-DETR model with weights and configure inference, we use the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TritonPythonModel</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(self, args: Dict[str, str]) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Path to the repository directory: `models/rfdetr-pytorch`</span>
+</span></span><span style="display:flex;"><span>        model_repository_path: str <span style="color:#f92672">=</span> args[<span style="color:#e6db74">&#34;model_repository&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Initialize the model</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> RFDETRMedium(
+</span></span><span style="display:flex;"><span>            pretrain_weights<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>model_repository_path<span style="color:#e6db74">}</span><span style="color:#e6db74">/rf-detr-medium.pth&#34;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Load `config.pbtxt` file as Json</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model_config <span style="color:#f92672">=</span> model_config <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(args[<span style="color:#e6db74">&#34;model_config&#34;</span>])
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>model_config<span style="color:#e6db74">=}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get model parameters.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Pay attention that parameters we get from `model_config` are plane strings.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># We have to parse them manually.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Here we parse</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#     key: &#34;class_ids&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#     value: { string_value: &#34;1, 3&#34; }</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># }</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>class_ids: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>fromstring(
+</span></span><span style="display:flex;"><span>            model_config[<span style="color:#e6db74">&#34;parameters&#34;</span>][<span style="color:#e6db74">&#34;class_ids&#34;</span>][<span style="color:#e6db74">&#34;string_value&#34;</span>],
+</span></span><span style="display:flex;"><span>            sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;, &#34;</span>,
+</span></span><span style="display:flex;"><span>            dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>int32,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Here we parse</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#     key: &#34;threshold&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#     value: { string_value: &#34;0.3&#34; }</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># }</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>threshold <span style="color:#f92672">=</span> float(model_config[<span style="color:#e6db74">&#34;parameters&#34;</span>][<span style="color:#e6db74">&#34;threshold&#34;</span>][<span style="color:#e6db74">&#34;string_value&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># The code below is the same as in the previous examples</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get INPUT0 configuration</span>
+</span></span><span style="display:flex;"><span>        input_config <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_config_by_name(model_config, <span style="color:#e6db74">&#34;in:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> input_config
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Convert Triton types to numpy types</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>input_dtype <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>triton_string_to_numpy(input_config[<span style="color:#e6db74">&#34;data_type&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get OUTPUT0 configuration</span>
+</span></span><span style="display:flex;"><span>        output_config <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_output_config_by_name(
+</span></span><span style="display:flex;"><span>            model_config, <span style="color:#e6db74">&#34;detections:json&#34;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> output_config
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Convert Triton types to numpy types</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>output_dtype <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>triton_string_to_numpy(output_config[<span style="color:#e6db74">&#34;data_type&#34;</span>])
+</span></span></code></pre></div><h4 id="batch-inference-and-response">Batch Inference and Response</h4>
+<p>On the inference stage (which is in the <code>execute()</code> function), the first thing we have to do is to collect images from the batch request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>images <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> request <span style="color:#f92672">in</span> requests:
+</span></span><span style="display:flex;"><span>    input_tensor <span style="color:#f92672">=</span> pb_utils<span style="color:#f92672">.</span>get_input_tensor_by_name(request, <span style="color:#e6db74">&#34;in:jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>    input_arr: np<span style="color:#f92672">.</span>ndarray <span style="color:#f92672">=</span> input_tensor<span style="color:#f92672">.</span>as_numpy()
+</span></span><span style="display:flex;"><span>    image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>imdecode(input_arr, cv2<span style="color:#f92672">.</span>IMREAD_UNCHANGED)
+</span></span><span style="display:flex;"><span>    image <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>cvtColor(image, cv2<span style="color:#f92672">.</span>COLOR_BGR2RGB)
+</span></span><span style="display:flex;"><span>    images<span style="color:#f92672">.</span>append(image)
+</span></span></code></pre></div><p>Next, we feed the batch to the model and get detections:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>detections: Detections <span style="color:#f92672">|</span> List[Detections] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>predict(images, threshold<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>threshold)
+</span></span></code></pre></div><p>RF-DETR model returns <code>Detections</code> for a single image and <code>List[Detections]</code> for a batch. From the <code>detections</code> we simply compose JSON/JSONs and send it as response to the client.</p>
+<h2 id="client-internals">Client Internals</h2>
+<p>Client side consists of two main parts:</p>
+<ul>
+<li>Sending an image. Code is the same as in <a href=/series/triton/triton-working-with-images-part-3/#echo-image-example>echo image</a> example.</li>
+<li>Receiving a JSON response. Code is the same as in <a href=/series/triton/triton-echo-json-part-2/>echo JSON</a> example.</li>
+</ul>
+<h3 id="how-to-call-sync-and-async-versions-of-the-model">How to Call Sync and Async Versions of the Model?</h3>
+<h4 id="sync-client">Sync Client</h4>
+<p>The gist of the sync client is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.grpc <span style="color:#66d9ef">as</span> grpcclient
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>grpc_client <span style="color:#f92672">=</span> grpcclient<span style="color:#f92672">.</span>InferenceServerClient(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost:8001&#34;</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> grpc_client<span style="color:#f92672">.</span>infer(
+</span></span><span style="display:flex;"><span>    model_name,
+</span></span><span style="display:flex;"><span>    inputs,
+</span></span><span style="display:flex;"><span>    outputs<span style="color:#f92672">=</span>outputs,
+</span></span><span style="display:flex;"><span>    model_version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>We import <code>grpcclient</code> from <code>tritonclient.grpc</code> and explicitly ask grpcclient to send request to the <strong>model version 1</strong>.</p>
+<h4 id="aync-client">Aync Client</h4>
+<p>The gist of the async client is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> tritonclient.grpc.aio <span style="color:#66d9ef">as</span> grpcclient
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>grpc_client <span style="color:#f92672">=</span> grpcclient<span style="color:#f92672">.</span>InferenceServerClient(url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost:8001&#34;</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> grpc_client<span style="color:#f92672">.</span>infer(
+</span></span><span style="display:flex;"><span>    model_name,
+</span></span><span style="display:flex;"><span>    inputs,
+</span></span><span style="display:flex;"><span>    outputs<span style="color:#f92672">=</span>outputs,
+</span></span><span style="display:flex;"><span>    model_version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2&#34;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>Here we import <code>grpcclient</code> from <code>tritonclient.grpc.aio</code> and explicitly ask grpcclient to send request to the <strong>model version 2</strong>. Note that the result of the inference request must be awaited.</p>
+<h2 id="home-assignment">Home Assignment</h2>
+<ol>
+<li>What is the difference between dynamic batcher and sequence batcher? What are the primary use cases for each one?</li>
+<li>For the asynchronous client example, try experimenting with Python&rsquo;s concurrency tools: <strong>semaphores</strong>, <code>asyncio.create_task()</code>, and the modern <code>asyncio.TaskGroup()</code>. See how each affects the client&rsquo;s performance and parallelism.</li>
+<li>Log the batch size on the server size. Modify your <code>model.py</code> file to log the batch size on the server side. Can you successfully achieve a batch size greater than 1 when using the synchronous version of the model? (Hint: Think about how the client handles requests.)</li>
+</ol>
+<h2 id="wrapping-up">Wrapping Up</h2>
+<p>Today, we covered a lot of new and important ground with Triton! We learned how to <strong>serve models on a GPU</strong>, how to take advantage of <strong>dynamic batching</strong>, how to pass <strong>custom parameters</strong> using the config file, and how to run a model in <strong>asynchronous mode</strong>. This knowledge forms the essential basis for deploying any serious model with Triton.</p>
+<p>The only thing left in the series of tutorials is ensemble serving, which we&rsquo;ll cover next time.</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>RF-DETR: SOTA Real-Time Detection and Segmentation Model <a href="https://github.com/roboflow/rf-detr" target="_blank">https://github.com/roboflow/rf-detr</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Python Tutorial: AsyncIO - Complete Guide to Asynchronous Programming with Animations <a href="https://www.youtube.com/watch?v=oAkLSJNr5zY" target="_blank">https://www.youtube.com/watch?v=oAkLSJNr5zY</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Triton Version Policy <a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#version-policy" target="_blank">https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#version-policy</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Instance Groups <a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#instance-groups" target="_blank">https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html#instance-groups</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Batchers <a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/batcher.html" target="_blank">https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/batcher.html</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Parameters in <code>config.pbtxt</code>: <a href="https://github.com/triton-inference-server/common/blob/2e41435a59f7fe1f5f73df5355ae7433a15a4650/protobuf/model_config.proto#L1669" target="_blank">triton-inference-server/common/protobuf/model_config.proto</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+  
+  <hr>
+<div class="footer">
+    
+    
+    
+    <p>
+    This is a post in the <b><a href="/series/triton">Triton</a></b> series.
+        <br>Other posts in this series:
+        <ul class="series">
+            
+            
+            
+            <li>
+                October 12, 2025 -
+                
+                    Triton. Part 4. Serving RF-DETR
+                
+            </li>
+            
+            <li>
+                September 22, 2025 -
+                
+                    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Working with Images.</a>
+                
+            </li>
+            
+            <li>
+                September 13, 2025 -
+                
+                    <a href="/series/triton/triton-echo-json-part-2/">Triton. Part 2. Echo Json.</a>
+                
+            </li>
+            
+            <li>
+                September 9, 2025 -
+                
+                    <a href="/series/triton/triton-echo-tensor-part-1/">Triton. Part 1. Echo Tensor</a>
+                
+            </li>
+            
+            <li>
+                September 9, 2025 -
+                
+                    <a href="/series/triton/triton-intro/">Triton Intro</a>
+                
+            </li>
+            
+        </ul>
+    </p>
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tldr-give-me-the-code">TL;DR: Give Me The Code</a></li>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#our-plan-for-today">Our Plan for Today</a></li>
+      </ul>
+    </li>
+    <li><a href="#model-directory-internals">Model Directory Internals</a>
+      <ul>
+        <li><a href="#sync-and-async-model-serving">Sync and Async Model Serving</a></li>
+        <li><a href="#how-does-configpbtxt-manage-model-versions">How Does <code>config.pbtxt</code> Manage Model Versions?</a></li>
+        <li><a href="#how-to-configure-configpbtxt-to-serve-models-on-gpu">How to Configure <code>config.pbtxt</code> to Serve Models on GPU?</a></li>
+        <li><a href="#how-to-configure-configpbtxt-for-batch-inference">How to Configure <code>config.pbtxt</code> for Batch Inference?</a></li>
+        <li><a href="#inputs-and-outputs">Inputs and Outputs</a></li>
+        <li><a href="#passing-custom-parameters-to-the-configpbtxt">Passing Custom Parameters to the <code>config.pbtxt</code></a></li>
+        <li><a href="#modelpy"><code>model.py</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#client-internals">Client Internals</a>
+      <ul>
+        <li><a href="#how-to-call-sync-and-async-versions-of-the-model">How to Call Sync and Async Versions of the Model?</a></li>
+      </ul>
+    </li>
+    <li><a href="#home-assignment">Home Assignment</a></li>
+    <li><a href="#wrapping-up">Wrapping Up</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
+        </div>
+    </body>
+</html>

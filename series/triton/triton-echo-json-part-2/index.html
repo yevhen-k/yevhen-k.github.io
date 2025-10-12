@@ -20,7 +20,7 @@
 
 
 
-<script defer language="javascript" type="text/javascript" src="/js/bundle.min.7750550c0319f5de56d916b91e642bf72a5bd09ee50b201dc2ed9db69d6177a8.js"></script>
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
 
 
 
@@ -99,13 +99,13 @@
 
 
 
-<meta name="generator" content="Hugo 0.148.2">
+<meta name="generator" content="Hugo 0.150.0">
 
 
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.ce70613c4f2e83aa9c5d878df1c3162924a67e9d9baa8aa1ed16319871164f29.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.a3876437c8150d2786a27bbd2ff089ec2e7b06c85d0c8611cb20d3c10eeb81bc.css">
 
 
     
@@ -483,7 +483,7 @@
           
         
 
-        <span>7 mins read</span>
+        <span>8 mins read</span>
       </span>
     </div>
 
@@ -516,7 +516,13 @@
   
 </div>
 
-  <h2 id="is-triton-just-for-tensors">Is Triton Just for Tensors?</h2>
+  <h2 id="tldr-give-me-the-code">TL;DR: Give Me The Code</h2>
+<p>For full code of the <code>echo-json</code> example, please visit <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check the following files and directories:</p>
+<ul>
+<li><code>client-echo-json.py</code></li>
+<li><code>models/echo-json</code></li>
+</ul>
+<h2 id="is-triton-just-for-tensors">Is Triton Just for Tensors?</h2>
 <p>In our last post, we made some great progress, learning how to set up and run a simple Triton server to pass a tensor back and forth. But what if a tensor isn&rsquo;t enough?</p>
 <p>As ML engineers, we often need to send more than just numerical arrays. We might want to send <strong>images</strong>, <strong>JSON objects</strong>, or <strong>audio files</strong> to our models. This brings up a big question: if Triton only deals in tensors, how do we handle all this other data?</p>
 <p>That&rsquo;s exactly what we&rsquo;ll explore in this and the following posts. As a hands-on example, we&rsquo;re going to build a Triton echo server that accepts a JSON and sends it right back, unchanged.</p>
@@ -758,9 +764,16 @@
             
             
             <li>
+                October 12, 2025 -
+                
+                    <a href="/series/triton/triton-serving-rf-detr-part-4/">Triton. Part 4. Serving RF-DETR</a>
+                
+            </li>
+            
+            <li>
                 September 22, 2025 -
                 
-                    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Dealing with Images.</a>
+                    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Working with Images.</a>
                 
             </li>
             
@@ -800,6 +813,7 @@
       <h4 id="contents"></h4>
       <nav id="TableOfContents">
   <ul>
+    <li><a href="#tldr-give-me-the-code">TL;DR: Give Me The Code</a></li>
     <li><a href="#is-triton-just-for-tensors">Is Triton Just for Tensors?</a></li>
     <li><a href="#its-all-just-bytes-really">It&rsquo;s All Just Bytes, Really</a>
       <ul>

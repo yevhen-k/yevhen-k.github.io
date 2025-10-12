@@ -20,7 +20,7 @@
 
 
 
-<script defer language="javascript" type="text/javascript" src="/js/bundle.min.7750550c0319f5de56d916b91e642bf72a5bd09ee50b201dc2ed9db69d6177a8.js"></script>
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
 
 
 
@@ -56,11 +56,11 @@
 
 <!-- Open Graph image and Twitter Card metadata -->
 
-<title itemprop="name">Yevhen Krasnokutsky - Triton. Part 3. Dealing with Images.</title>
-<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
-<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
-<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
-<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Dealing&#32;with&#32;Images. />
+<title itemprop="name">Yevhen Krasnokutsky - Triton. Part 3. Working with Images.</title>
+<meta property="og:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Working&#32;with&#32;Images. />
+<meta name="twitter:title" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Working&#32;with&#32;Images. />
+<meta itemprop="name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Working&#32;with&#32;Images. />
+<meta name="application-name" content=Yevhen&#32;Krasnokutsky&#32;-&#32;Triton.&#32;Part&#32;3.&#32;Working&#32;with&#32;Images. />
 <meta property="og:site_name" content="The blog for PhD Yevhen Krasnokutsky | ML Engineer | Data Scientist" />
 
 
@@ -99,13 +99,13 @@
 
 
 
-<meta name="generator" content="Hugo 0.148.2">
+<meta name="generator" content="Hugo 0.150.0">
 
 
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.ce70613c4f2e83aa9c5d878df1c3162924a67e9d9baa8aa1ed16319871164f29.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.a3876437c8150d2786a27bbd2ff089ec2e7b06c85d0c8611cb20d3c10eeb81bc.css">
 
 
     
@@ -466,7 +466,7 @@
                 <div class="post">
   <div class="info">
   <h1 class="post-title">
-    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Dealing with Images.</a>
+    <a href="/series/triton/triton-working-with-images-part-3/">Triton. Part 3. Working with Images.</a>
   </h1>
 
   <div class="headline">
@@ -516,7 +516,14 @@
   
 </div>
 
-  <p>In this post, we&rsquo;re going to explore how to send and receive images using Triton.</p>
+  <h2 id="tldr-give-me-the-code">TL;DR: Give Me The Code</h2>
+<p>For full code of the <code>process-image</code> example, visit <a href="https://github.com/yevhen-k/triton-tutorials" target="_blank">https://github.com/yevhen-k/triton-tutorials</a> and check the following files and directories:</p>
+<ul>
+<li><code>client-process-image.py</code></li>
+<li><code>models/process-image</code></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, we&rsquo;re going to explore how to send and receive images using Triton.</p>
 <p>In Python and deep learning, images are primarily represented in two ways:</p>
 <ul>
 <li><strong>Bytes</strong>: The raw, encoded data of an image (e.g., a <code>.jpg</code> or <code>.png</code> file).</li>
@@ -542,9 +549,9 @@
 </span></span></code></pre></div><h3 id="preparation">Preparation</h3>
 <p>Since the official Triton Docker image doesn&rsquo;t include image processing libraries, we need to extend it. To do this, we&rsquo;ll create a <code>Dockerfile</code> and a <code>requirements.txt</code> file.</p>
 <p><code>Dockerfile</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> nvcr.io/nvidia/tritonserver:24.08-py3</span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">nvcr.io/nvidia/tritonserver:24.08-py3</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /requirements-dir</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/requirements-dir</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> DEBIAN_FRONTEND<span style="color:#f92672">=</span>noninteractive
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> PYTHONUNBUFFERED<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
@@ -828,9 +835,16 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
             
             
             <li>
+                October 12, 2025 -
+                
+                    <a href="/series/triton/triton-serving-rf-detr-part-4/">Triton. Part 4. Serving RF-DETR</a>
+                
+            </li>
+            
+            <li>
                 September 22, 2025 -
                 
-                    Triton. Part 3. Dealing with Images.
+                    Triton. Part 3. Working with Images.
                 
             </li>
             
@@ -870,6 +884,8 @@ This means we&rsquo;re sending and receiving the raw bytes of the image file, no
       <h4 id="contents"></h4>
       <nav id="TableOfContents">
   <ul>
+    <li><a href="#tldr-give-me-the-code">TL;DR: Give Me The Code</a></li>
+    <li><a href="#introduction">Introduction</a></li>
     <li><a href="#what-do-we-need-to-process-images">What do We Need to Process Images?</a>
       <ul>
         <li><a href="#preparation">Preparation</a></li>
